@@ -15,23 +15,31 @@
     </select>
 
     <div class="notes-panel">
-      <Note v-for="note in notes" :pitch="note + Height" :effect="effect" :key="note"></Note>
+      <Note v-for="(note,i) in notes" :pitch="note + Height" :effect="effect" :key="note" :couleur='colors.length==0 ? "" : colors[i]'></Note>  
+    </div>
+
+    <label for="">Choisir base de couleurs pour la palette</label>
+    <div class="colorsPanel">
+      <Color v-for="color in themes" :color="color" @changeColors='changeColors($event)' :key="color"></Color>
     </div>
   </div>
 </template>
 
 <script>
 import Note from './components/Note.vue';
+import Color from './components/Color.vue';
 
 export default {
   name: 'App',
   components: {
     Note,
+    Color 
   },
   data() {
     return {
         Height: '4',
         Effect: 'none',
+        Color:'green',  
         notes: [
         'C',
         'D',
@@ -54,7 +62,23 @@ export default {
         'reverb',
         'chorus',
         'bitCrusher'
-      ]
+      ],
+      themes: [
+        'green',
+        'pink',
+        'brown',
+        'blue',
+        'blueviolet',
+        'white',
+        'dark'
+      ],
+      colors:[]
+    }
+  },
+  methods:{
+    changeColors(colors){
+      this.colors = colors
+        console.log(colors)
     }
   }
 }
@@ -70,9 +94,10 @@ export default {
   margin-top: 60px;
 }
 
-  .notes-panel {
+.notes-panel {
     display: flex;
     flex-direction: row;
     justify-content: center;
-  }
+}
+
 </style>

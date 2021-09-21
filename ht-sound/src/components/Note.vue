@@ -1,6 +1,6 @@
 <template>
   <div>
-		<button @click="startAudio()">{{pitch}}</button>
+		<button @click="startAudio()" :style="this.couleur == ''? '' : {backgroundColor:this.couleur}">{{pitch}}</button>
   </div>
 </template>
 
@@ -8,7 +8,12 @@
 import * as Tone from 'tone';
 
 export default {
-	props: ['pitch', 'effect'],
+	props: ['pitch', 'effect','couleur'],
+	data(){
+		return {
+			style: '{background-color:white}'
+		}
+	},
 	// EFFECTS : none / reverb / chorus / bitCrusher
 	methods: {
 		startAudio() {
@@ -19,9 +24,7 @@ export default {
 			// this.synth.triggerAttackRelease(this.pitch, "8n");
 			// Tone.start();
 		}
-	}
-
-
+	},
 
 }
 </script>
