@@ -1,106 +1,101 @@
 <template>
-  <div id="app">
-    <div class="head"></div>
-    <div class="notes_container">
-      <ul
-        class="music"
-        @drop="onDrop($event)"
-        @dragenter.prevent
-        @dragover.prevent
-      >
-        <li
-          v-for="(note, index) in music"
-          :key="index"
-          draggable="true"
-          @dragstart="startDragID($event, note)"
+  <main>
+    <div class="mt-5 container">
+      <div class="header">menu</div>
+      <div class="music">
+        <h4 class="mb-3">Musique</h4>
+        <draggable
+          class="draggable-list"
+          :list="list1"
+          :group="{ name: 'myGroup', put: true }"
         >
-          {{ note.item }}
-        </li>
-      </ul>
+          <div class="list-item" v-for="element in list1" :key="element.name">
+            {{ element.name }}
+          </div>
+        </draggable>
+      </div>
+
+      <div class="notes">
+        <div>
+          <h4 class="mb-3">Notes</h4>
+          <draggable
+            class="draggable-list"
+            :list="list2"
+            :group="{ name: 'myGroup', pull: 'clone', put: false }"
+          >
+            <div class="list-item" v-for="element in list2" :key="element.name">
+              {{ element.name }}
+            </div>
+          </draggable>
+        </div>
+
+        <div>
+          <h4 class="mb-3">Poubelle</h4>
+          <draggable
+            class="draggable-list trash"
+            :list="list3"
+            :group="{ name: 'myGroup', pull: 'clone', put: true }"
+          >
+          </draggable>
+        </div>
+      </div>
     </div>
-    <div class="footer">
-      <ul class="notes">
-        <li
-          v-for="(note, index) in notes"
-          :key="index"
-          draggable="true"
-          @dragstart="startDrag($event, note)"
-        >
-          <p>{{ note }}</p>
-        </li>
-        <li
-          class="trash"
-          @drop="trash($event)"
-          @dragover="trashIn = true"
-          @dragleave="trashIn = false"
-          @dragenter.prevent
-          @dragover.prevent
-        >
-          <img
-            :class="trashIn ? 'trashIn' : ''"
-            class="trash_img"
-            src="./assets/trash.svg"
-            alt=""
-          />
-        </li>
-      </ul>
-    </div>
-  </div>
+  </main>
 </template>
 <script>
+import draggable from "vuedraggable";
 export default {
-  name: "App",
+  components: {
+    draggable,
+  },
   data() {
     return {
-      Height: "4",
-      Effect: "none",
-      notes: ["C", "D", "E", "F", "G", "A", "B"],
-      music: [],
-      heights: ["0", "1", "2", "3", "4", "5"],
-      effects: ["none", "reverb", "chorus", "bitCrusher"],
-      trashIn: false,
+      list1: [],
+      list3: [],
+      list2: [
+        { name: "A" },
+        { name: "B" },
+        { name: "C" },
+        { name: "D" },
+        { name: "E" },
+        { name: "F" },
+        { name: "G" },
+      ],
     };
-  },
-  methods: {
-    startDrag(event, item) {
-      console.log(item);
-      event.dataTransfer.dropEffect = "move";
-      event.dataTransfer.effectAllowed = "move";
-      event.dataTransfer.setData("itemID", item);
-    },
-    startDragID(event, item) {
-      console.log(item.item);
-      event.dataTransfer.dropEffect = "move";
-      event.dataTransfer.effectAllowed = "move";
-      event.dataTransfer.setData("itemIDTrash", item.index);
-    },
-    onDrop(event) {
-      const itemID = event.dataTransfer.getData("itemID");
-      console.log(itemID);
-      if (itemID != "") {
-        this.music.push({ item: itemID, index: this.music.length });
-      }
-    },
-    trash(event) {
-      const itemID = event.dataTransfer.getData("itemIDTrash");
-      console.log(itemID);
-      this.music.splice(itemID, 1);
-      this.cleanArray();
-      console.log(this.music);
-    },
-    cleanArray() {
-      const music_tmp = [];
-      this.music.forEach((element, index) => {
-        music_tmp.push({ item: element.item, index: index });
-      });
-      this.music = music_tmp;
-    },
   },
 };
 </script>
-
-<style>
-  @import "./assets/css/reset.css";
-  @import "./assets/css/style.css";
-  @import "./assets/css/footer.css";
+<style scoped>
+  .draggable-list {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    background: #3f51b5;
+    color: #fff;
+    border: 1px solid;
+    height: 10vh;
+  }
+  .list-item {
+    height: 64px;
+    width: 64px;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 50%;
+    background: #f44336;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .notes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .trash {
+    height: 64px;
+    width: 64px;
+    background-image: url("./assets/trash.svg");
+    background-position: center;
+    background-repeat: no-repeat;
+  }
 </style>
