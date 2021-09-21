@@ -27,7 +27,11 @@
             :list="availableNotes"
             :group="{ name: 'myGroup', pull: 'clone', put: false }"
           >
-            <div class="list-item" v-for="element in availableNotes" :key="element.name">
+            <div
+              class="list-item"
+              v-for="element in availableNotes"
+              :key="element.name"
+            >
               {{ element.name }}
             </div>
           </draggable>
@@ -44,18 +48,24 @@
         </div>
       </div>
     </div>
+    <Visual v-if="truc" />
   </main>
 </template>
 <script>
 import draggable from "vuedraggable";
-import * as Tone from 'tone';
+import * as Tone from "tone";
+import Visual from "./components/Visual.vue";
+import { fireworks } from "./assets/js/fireworks";
+// import { circle } from "./assets/js/circle";
 
 export default {
   components: {
     draggable,
+    Visual
   },
   data() {
     return {
+      truc: false,
       sheet: [],
       trash: [],
       availableNotes: [
@@ -65,21 +75,22 @@ export default {
         { name: "D" },
         { name: "E" },
         { name: "F" },
-        { name: "G" },
-      ],
+        { name: "G" }
+      ]
     };
   },
   methods: {
     playSound() {
+      this.truc = true;
       let synth;
       // const now = Tone.now();
       // let effect;
       // const seq = ["E4", "D#4", "E4", "D#4", "E4", "B3", "D4", "C4", "A3"];
-      // INSTRUMENT 
+      // INSTRUMENT
       // if (this.instrument === 'fmSynth') synth = new Tone.FMSynth();
       // else if (this.instrument === 'amSynth') synth = new Tone.AMSynth();
       // else if (this.instrument === 'synth') synth = new Tone.Synth();
-      synth = new Tone.Synth().toDestination(); 
+      synth = new Tone.Synth().toDestination();
 
       // EFFET
       // if (this.effect !== 'none'){
@@ -91,21 +102,23 @@ export default {
       //   synth = synth.connect(effect);
       // }
       // else synth = synth.toDestination();
-      
+
       // this.music.forEach((note, i) => {
       //   synth.triggerAttackRelease(note + this.Height, "8n", now + i);
       // })
       new Tone.Sequence((time, note) => {
-        synth.triggerAttackRelease(note.name + '4', 0.1, time);
+        synth.triggerAttackRelease(note.name + "4", 0.1, time);
+        fireworks();
+        // circle();
       }, this.sheet).start(0);
       Tone.Transport.start();
-    
+
       // const analyser = new Tone.Analyser();
       // console.log(analyser);
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>
-  @import url("./assets/css/style.css");
+@import url("./assets/css/style.css");
 </style>
