@@ -43,12 +43,17 @@
             alt=""
           />
         </li>
+        <li class="play"> 
+          <button @click="playSound()">PLAY</button>
+        </li>
       </ul>
     </div>
   </div>
 
 </template>
 <script>
+import * as Tone from 'tone';
+
 export default {
   name: "App",
   data() {
@@ -58,36 +63,36 @@ export default {
       notes: ["C", "D", "E", "F", "G", "A", "B"],
       music: [],
       heights: ["0", "1", "2", "3", "4", "5"],
-      effects: ["none", "reverb", "chorus", "bitCrusher"],
+      effects: ["distortion", "bitCrusher","chorus", "chebyshev", "none"],
       trashIn: false,
     };
   },
   methods: {
     startDrag(event, item) {
-      console.log(item);
+      //console.log(item);
       event.dataTransfer.dropEffect = "move";
       event.dataTransfer.effectAllowed = "move";
       event.dataTransfer.setData("itemID", item);
     },
     startDragID(event, item) {
-      console.log(item.item);
+      //console.log(item.item);
       event.dataTransfer.dropEffect = "move";
       event.dataTransfer.effectAllowed = "move";
       event.dataTransfer.setData("itemIDTrash", item.index);
     },
     onDrop(event) {
       const itemID = event.dataTransfer.getData("itemID");
-      console.log(itemID);
+      //console.log(itemID);
       if (itemID != "") {
         this.music.push({ item: itemID, index: this.music.length });
       }
     },
     trash(event) {
       const itemID = event.dataTransfer.getData("itemIDTrash");
-      console.log(itemID);
+      //console.log(itemID);
       this.music.splice(itemID, 1);
       this.cleanArray();
-      console.log(this.music);
+      //console.log(this.music);
     },
     cleanArray() {
       const music_tmp = [];
@@ -95,6 +100,40 @@ export default {
         music_tmp.push({ item: element.item, index: index });
       });
       this.music = music_tmp;
+    },
+    playSound() {
+      let synth;
+      // const now = Tone.now();
+      // let effect;
+      // const seq = ["E4", "D#4", "E4", "D#4", "E4", "B3", "D4", "C4", "A3"];
+      // INSTRUMENT 
+      // if (this.instrument === 'fmSynth') synth = new Tone.FMSynth();
+      // else if (this.instrument === 'amSynth') synth = new Tone.AMSynth();
+      // else if (this.instrument === 'synth') synth = new Tone.Synth();
+      synth = new Tone.Synth().toDestination(); 
+
+      // EFFET
+      // if (this.effect !== 'none'){
+      //   if (this.effect === 'distortion') effect = new Tone.Distortion(1).toDestination();
+      //   if (this.effect === 'bitCrusher') effect = new Tone.BitCrusher(3).toDestination();
+      //   if (this.effect === 'chorus') effect = new Tone.Chorus(4, 2.5, 0.5).toDestination().start();
+      //   if (this.effect === 'chebyshev') effect = new Tone.Chebyshev(50).toDestination();
+
+      //   synth = synth.connect(effect);
+      // }
+      // else synth = synth.toDestination();
+      
+      // this.music.forEach((note, i) => {
+      //   synth.triggerAttackRelease(note + this.Height, "8n", now + i);
+      // })
+      new Tone.Sequence((time, note) => {
+        console.log("next tick")
+        synth.triggerAttackRelease(note.item + this.Height, 0.1, time);
+      }, this.music).start(0);
+      Tone.Transport.start();
+    
+      const analyser = new Tone.Analyser();
+      console.log(analyser);
     },
   },
 };

@@ -6,7 +6,7 @@
       <datalist id="frequency">
         <option v-for="f in frequencies" :key="f"> {{f}} </option>
       </datalist>
-      <input type="number" class="gauge-value" v-model="range">
+      <input style="background-color: " type="number" class="gauge-value" v-model="range">
     </div>
     <!-- LONGUEUR -->
     <label>Longueur:</label>
