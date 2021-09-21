@@ -2,7 +2,7 @@
   <main>
     <div class="mt-5 container">
       <div class="header">
-        <Color v-for="theme in themes" :theme="theme" @changeColors='changeColors($event)' :key="theme"></Color>
+        <Color v-for="theme in themes" :theme="theme" @changeColors='changeColors($event)' :key="theme.color"></Color>
         <!-- EFFET -->
         <!-- <label>Effet:</label>
         <select v-model="activeEffect">
@@ -110,6 +110,7 @@ export default {
       ],
       gradient: [],
     }
+    
   },
   methods: {
     playSound() {
