@@ -19,28 +19,32 @@
       <div class="play flex-center">
         <button>Play</button>
       </div>
-      <div class="notes flex-center">
-        <div>
-          <h4 class="mb-3">Notes</h4>
-          <draggable
-            class="draggable-list"
-            :list="list2"
-            :group="{ name: 'myGroup', pull: 'clone', put: false }"
-          >
-            <div class="list-item" v-for="element in list2" :key="element.name">
-              {{ element.name }}
-            </div>
-          </draggable>
-        </div>
+      <div class="notes">
+        <div class="flex-center">
+          <div>
+            <draggable
+              class="draggable-list"
+              :list="list2"
+              :group="{ name: 'myGroup', pull: 'clone', put: false }"
+            >
+              <div
+                class="list-item"
+                v-for="element in list2"
+                :key="element.name"
+              >
+                {{ element.name }}
+              </div>
+            </draggable>
+          </div>
 
-        <div>
-          <h4 class="mb-3">Poubelle</h4>
-          <draggable
-            class="draggable-list trash"
-            :list="list3"
-            :group="{ name: 'myGroup', pull: 'clone', put: true }"
-          >
-          </draggable>
+          <div class="trash">
+            <draggable
+              class="draggable-list trashList"
+              :list="list3"
+              :group="{ name: 'myGroup', pull: 'clone', put: true }"
+            >
+            </draggable>
+          </div>
         </div>
       </div>
     </div>
