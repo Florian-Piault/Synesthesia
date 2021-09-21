@@ -1,0 +1,32 @@
+.notes{
+    padding: 16px 0;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+.notes li{
+    width: 64px;
+    height: 64px;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.notes li p{
+    margin: 0;
+
+}
+  .trash {
+    background: none !important;
+  }
+  .trashIn {
+    transform:  scale(110%);
+    filter: invert(39%) sepia(53%) saturate(1692%) hue-rotate(336deg) brightness(86%) contrast(95%) !important;
+    z-index: 1;
+}
+  .trash .trash_img{
+    filter: invert(100%);
+  }

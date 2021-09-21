@@ -1,78 +1,111 @@
 <template>
-  <div id="app">
-    <h1>TONE.JS</h1>
+  <main>
+    <div class="mt-5 container">
+      <div class="header">menu</div>
+      <div class="music">
+        <div>
+          <h4 class="mb-3">Musique</h4>
+          <draggable
+            class="draggable-list"
+            :list="sheet"
+            :group="{ name: 'myGroup', put: true }"
+          >
+            <div class="list-item" v-for="element in sheet" :key="element.name">
+              {{ element.name }}
+            </div>
+          </draggable>
+        </div>
+      </div>
+      <div class="play flex-center">
+        <button @click="playSound()">Play</button>
+      </div>
+      <div class="notes flex-center">
+        <div>
+          <h4 class="mb-3">Notes</h4>
+          <draggable
+            class="draggable-list"
+            :list="availableNotes"
+            :group="{ name: 'myGroup', pull: 'clone', put: false }"
+          >
+            <div class="list-item" v-for="element in availableNotes" :key="element.name">
+              {{ element.name }}
+            </div>
+          </draggable>
+        </div>
 
-    <!-- HAUTEURS -->
-    <label>Hauteur:</label>
-    <select v-model="Height">
-      <option v-for="height in heights" :value="height" :key="height"> {{height}}</option>
-    </select>
-
-    <!-- EFFETS -->
-    <label>Effet:</label>
-    <select v-model="Effect">
-      <option v-for="effect in effects" :value="effect" :key="effect"> {{effect}}</option>
-    </select>
-
-    <div class="notes-panel">
-      <Note v-for="note in notes" :pitch="note + Height" :effect="effect" :key="note"></Note>
+        <div>
+          <h4 class="mb-3">Poubelle</h4>
+          <draggable
+            class="draggable-list trash"
+            :list="trash"
+            :group="{ name: 'myGroup', pull: 'clone', put: true }"
+          >
+          </draggable>
+        </div>
+      </div>
     </div>
-  </div>
+  </main>
 </template>
-
 <script>
-import Note from './components/Note.vue';
+import draggable from "vuedraggable";
+import * as Tone from 'tone';
 
 export default {
-  name: 'App',
   components: {
-    Note,
+    draggable,
   },
   data() {
     return {
-        Height: '4',
-        Effect: 'none',
-        notes: [
-        'C',
-        'D',
-        'E',
-        'F',
-        'G',
-        'A',
-        'B',
+      sheet: [],
+      trash: [],
+      availableNotes: [
+        { name: "A" },
+        { name: "B" },
+        { name: "C" },
+        { name: "D" },
+        { name: "E" },
+        { name: "F" },
+        { name: "G" },
       ],
-      heights: [
-        '0',
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-      ],
-      effects: [
-        'none',
-        'reverb',
-        'chorus',
-        'bitCrusher'
-      ]
-    }
-  }
-}
+    };
+  },
+  methods: {
+    playSound() {
+      let synth;
+      // const now = Tone.now();
+      // let effect;
+      // const seq = ["E4", "D#4", "E4", "D#4", "E4", "B3", "D4", "C4", "A3"];
+      // INSTRUMENT 
+      // if (this.instrument === 'fmSynth') synth = new Tone.FMSynth();
+      // else if (this.instrument === 'amSynth') synth = new Tone.AMSynth();
+      // else if (this.instrument === 'synth') synth = new Tone.Synth();
+      synth = new Tone.Synth().toDestination(); 
+
+      // EFFET
+      // if (this.effect !== 'none'){
+      //   if (this.effect === 'distortion') effect = new Tone.Distortion(1).toDestination();
+      //   if (this.effect === 'bitCrusher') effect = new Tone.BitCrusher(3).toDestination();
+      //   if (this.effect === 'chorus') effect = new Tone.Chorus(4, 2.5, 0.5).toDestination().start();
+      //   if (this.effect === 'chebyshev') effect = new Tone.Chebyshev(50).toDestination();
+
+      //   synth = synth.connect(effect);
+      // }
+      // else synth = synth.toDestination();
+      
+      // this.music.forEach((note, i) => {
+      //   synth.triggerAttackRelease(note + this.Height, "8n", now + i);
+      // })
+      new Tone.Sequence((time, note) => {
+        synth.triggerAttackRelease(note.name + '4', 0.1, time);
+      }, this.sheet).start(0);
+      Tone.Transport.start();
+    
+      // const analyser = new Tone.Analyser();
+      // console.log(analyser);
+    },
+  },
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-
-  .notes-panel {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
+<style scoped>
+  @import url("./assets/css/style.css");
 </style>
