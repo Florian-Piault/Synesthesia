@@ -1,6 +1,6 @@
 <template>
   <div>
-          <option @click="getColors()" class="colors">{{color}}</option>
+    <option @click="getColors()" :style="bgColor">{{theme.label}}</option>
   </div>
 </template>
 
@@ -8,22 +8,23 @@
 import * as chroma from 'chroma-js';
 
 export default {
-	props: ['color'],
-    
+	props: ['theme'],
+  data() {
+    return {
+      bgColor: ''
+    }
+  },
 	methods: {
 		getColors() {
-            console.log(this.color)
-            let hexa = chroma(this.color).darken().saturate(2).hex()
-            const colors = chroma.scale(['#fafa6e',hexa]).mode('lch').colors(7)
-            console.log(colors)
-            this.$emit('changeColors',colors)
-            colors;
+      const colors = chroma.scale([this.theme.colorFrom,this.theme.colorTo]).mode('lch').colors(7);
+      this.$emit('changeColors',colors);
 		},
-
-        transformNotes(){
-            console.log("coucou")
-        }       
-	}
+	},
+  mounted() {
+    const colors = chroma.scale([this.theme.colorFrom,this.theme.colorTo]).mode('lch').colors(7);
+    this.bgColor = "background: linear-gradient(90deg, " + colors[0] + " 0%, " + colors[colors.length - 1] + " 100%";
+console.log(this.bgColor)
+  }
 }
 </script>
 

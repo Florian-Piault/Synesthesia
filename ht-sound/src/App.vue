@@ -2,16 +2,17 @@
   <main>
     <div class="mt-5 container">
       <div class="header">
+        <Color v-for="theme in themes" :theme="theme" @changeColors='changeColors($event)' :key="theme"></Color>
         <!-- EFFET -->
-        <label>Effet:</label>
+        <!-- <label>Effet:</label>
         <select v-model="activeEffect">
           <option v-for="e in effects" :value="e" :key="e"> {{e}}</option>
-        </select>
+        </select> -->
         <!-- INSTRUMENT -->
-        <label>Instrument:</label>
+        <!-- <label>Instrument:</label>
         <select v-model="activeInstrument">
           <option v-for="i in instruments" :value="i" :key="i"> {{i}}</option>
-        </select>
+        </select> -->
       </div>
 
       <!-- PARTITION -->
@@ -23,7 +24,7 @@
             :list="sheet"
             :group="{ name: 'myGroup', put: true }"
           >
-            <div class="list-item" v-for="element in sheet" :key="element.name">
+            <div class="list-item" :style=" element.color !== '' ? 'background-color:' + element.color : ''" v-for="element in sheet" :key="element.name">
               {{ element.name }}
             </div>
           </draggable>
@@ -45,7 +46,7 @@
             :list="availableNotes"
             :group="{ name: 'myGroup', pull: 'clone', put: false }"
           >
-            <div class="list-item" v-for="element in availableNotes" :key="element.name">
+            <div class="list-item" :style=" element.color !== '' ? 'background-color:' + element.color : ''" v-for="element in availableNotes" :key="element.name">
               {{ element.name }}
             </div>
           </draggable>
@@ -67,41 +68,46 @@
 
     <label for="">Choisir base de couleurs pour la palette</label>
     <div class="colorsPanel">
-      <Color v-for="color in themes" :color="color" @changeColors='changeColors($event)' :key="color"></Color>
-    </div> -->
+      <Color v-for="color in themes" :color="color" @changeColors='changeColors($event)' :key="color"></Color> -->
+    </div> 
   </main>
 </template>
 <script>
 import draggable from 'vuedraggable';
-import * as Tone from 'tone';
-import Note from './components/Note.vue';
 import Color from './components/Color.vue';
+import * as Tone from 'tone';
 
 export default {
   components: {
     draggable,
-    Note,
     Color
+    // Note,
   },
   data() {
     return {
       sheet: [],
       trash: [],
       availableNotes: [
-        { name: "C" },
-        { name: "D" },
-        { name: "E" },
-        { name: "F" },
-        { name: "G" },
-        { name: "A" },
-        { name: "B" },
+        { name: "C", color: '' },
+        { name: "D", color: '' },
+        { name: "E", color: '' },
+        { name: "F", color: '' },
+        { name: "G", color: '' },
+        { name: "A", color: '' },
+        { name: "B", color: '' },
       ],
       effects: ["distortion", "bitCrusher","chorus", "chebyshev", "none"],
       activeEffect: "chebyshev",
       instruments: ["fmSynth", "amSynth", "synth"],
       activeInstrument: "synth",
-      activeTheme: 'green',
-      themes: ['green', 'pink', 'brown', 'blue', 'blueviolet', 'white', 'dark'],
+      activeTheme: "green",
+      themes: [
+        { colorFrom: "#85FFBD", colorTo: "#FFFB7D", label: "VERT" },
+        { colorFrom: "#EE74E1", colorTo: "#3EECAC", label: "ROSE" },
+        { colorFrom: "ff6d93", colorTo: "8e0000", label: "MARRON"},
+        { colorFrom: "#9bc5c3", colorTo: "#6d66ca", label: "BLEU"},
+        { colorFrom: "#fafa5e", colorTo: "#2A4858", label: "VIOLET-BLEU" }
+      ],
       gradient: [],
     }
   },
@@ -140,8 +146,8 @@ export default {
       Tone.Transport.stop();
     },
     changeColors(colors){
-      this.colors = colors;
-      console.log(colors);
+      this.gradient = colors;
+      this.availableNotes.forEach((note,i) => note.color = this.gradient[i]);
     }
   }
 }
