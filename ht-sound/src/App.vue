@@ -59,13 +59,13 @@ export default {
       sheet: [],
       trash: [],
       availableNotes: [
-        { name: "A" },
-        { name: "B" },
         { name: "C" },
         { name: "D" },
         { name: "E" },
         { name: "F" },
         { name: "G" },
+        { name: "A" },
+        { name: "B" },
       ],
     };
   },
