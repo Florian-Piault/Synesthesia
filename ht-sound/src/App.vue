@@ -4,35 +4,38 @@
       <div class="header">menu</div>
       <div class="music">
         <div>
-          <h4 class="mb-3">Musique</h4>
           <draggable
             class="draggable-list"
             :list="sheet"
             :group="{ name: 'myGroup', put: true }"
           >
             <div class="list-item" v-for="element in sheet" :key="element.name">
-              {{ element.name }}
+              {{ element.label }}
             </div>
           </draggable>
         </div>
       </div>
-      <div class="play flex-center">
-        <button @click="playSound()">Play</button>
+      <div class="play flex-center column">
+        <button @click="playSound()" class="btn-hover color-1">
+          See your song
+        </button>
+
+        <!--  <label>Découvrez visuellement votre musique</label> -->
       </div>
       <div class="notes">
         <div class="flex-center">
           <div>
             <draggable
               class="draggable-list"
-              :list="list2"
+              :list="availableNotes"
               :group="{ name: 'myGroup', pull: 'clone', put: false }"
             >
               <div
                 class="list-item"
-                v-for="element in list2"
+                v-for="element in availableNotes"
                 :key="element.name"
               >
-                {{ element.name }}
+                {{ element.label }}
               </div>
             </draggable>
           </div>
@@ -63,13 +66,13 @@ export default {
       sheet: [],
       trash: [],
       availableNotes: [
-        { name: "C" },
-        { name: "D" },
-        { name: "E" },
-        { name: "F" },
-        { name: "G" },
-        { name: "A" },
-        { name: "B" },
+        { name: "C", label: "DO" },
+        { name: "D", label: "RE" },
+        { name: "E", label: "MI" },
+        { name: "F", label: "FA" },
+        { name: "G", label: "SOL" },
+        { name: "A", label: "LA" },
+        { name: "B", label: "SI" },
       ],
     };
   },
