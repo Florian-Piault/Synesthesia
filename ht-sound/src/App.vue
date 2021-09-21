@@ -14,19 +14,28 @@
       <option v-for="effect in effects" :value="effect" :key="effect"> {{effect}}</option>
     </select>
 
+    <!-- STOP -->
+    <!-- <button @click="$refs.myNote.stopAudio()">STOP</button> -->
+
     <div class="notes-panel">
-      <Note v-for="note in notes" :pitch="note + Height" :effect="effect" :key="note"></Note>
+      <Note v-for="note in notes" :pitch="note + Height" :effect="Effect" :key="note" ref="myNote"></Note>
     </div>
+      
+    <Ampli/>
+
   </div>
+
 </template>
 
 <script>
 import Note from './components/Note.vue';
+import Ampli from './components/Ampli.vue';
 
 export default {
   name: 'App',
   components: {
     Note,
+    Ampli
   },
   data() {
     return {
