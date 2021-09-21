@@ -61,16 +61,27 @@
           </draggable>
         </div>
       </div>
+    <!-- <div class="notes-panel">
+      <Note v-for="(note,i) in notes" :pitch="note + Height" :effect="effect" :key="note" :couleur='colors.length==0 ? "" : colors[i]'></Note>  
     </div>
+
+    <label for="">Choisir base de couleurs pour la palette</label>
+    <div class="colorsPanel">
+      <Color v-for="color in themes" :color="color" @changeColors='changeColors($event)' :key="color"></Color>
+    </div> -->
   </main>
 </template>
 <script>
-import draggable from "vuedraggable";
+import draggable from 'vuedraggable';
 import * as Tone from 'tone';
+import Note from './components/Note.vue';
+import Color from './components/Color.vue';
 
 export default {
   components: {
     draggable,
+    Note,
+    Color
   },
   data() {
     return {
@@ -89,8 +100,10 @@ export default {
       activeEffect: "chebyshev",
       instruments: ["fmSynth", "amSynth", "synth"],
       activeInstrument: "synth",
-
-    };
+      activeTheme: 'green',
+      themes: ['green', 'pink', 'brown', 'blue', 'blueviolet', 'white', 'dark'],
+      gradient: [],
+    }
   },
   methods: {
     playSound() {
@@ -125,9 +138,14 @@ export default {
     },
     stopSound() {
       Tone.Transport.stop();
+    },
+    changeColors(colors){
+      this.colors = colors;
+      console.log(colors);
     }
-  },
-};
+  }
+}
+
 </script>
 <style scoped>
   @import url("./assets/css/style.css");
