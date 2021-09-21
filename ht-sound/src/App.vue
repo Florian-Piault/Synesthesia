@@ -14,8 +14,10 @@
           </div>
         </draggable>
       </div>
-
-      <div class="notes">
+      <div class="play flex-center">
+        <button>Play</button>
+      </div>
+      <div class="notes flex-center">
         <div>
           <h4 class="mb-3">Notes</h4>
           <draggable
@@ -86,7 +88,7 @@ export default {
     justify-content: center;
     align-items: center;
   }
-  .notes {
+  .flex-center {
     display: flex;
     justify-content: center;
     align-items: center;
