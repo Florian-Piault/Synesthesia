@@ -1,7 +1,20 @@
 <template>
   <main>
     <div class="mt-5 container">
-      <div class="header">menu</div>
+      <div class="header">
+        <!-- EFFET -->
+        <label>Effet:</label>
+        <select v-model="activeEffect">
+          <option v-for="e in effects" :value="e" :key="e"> {{e}}</option>
+        </select>
+        <!-- INSTRUMENT -->
+        <label>Instrument:</label>
+        <select v-model="activeInstrument">
+          <option v-for="i in instruments" :value="i" :key="i"> {{i}}</option>
+        </select>
+      </div>
+
+      <!-- PARTITION -->
       <div class="music">
         <div>
           <h4 class="mb-3">Musique</h4>
@@ -16,9 +29,14 @@
           </draggable>
         </div>
       </div>
+
+      <!-- BUTTONS -->
       <div class="play flex-center">
         <button @click="playSound()">Play</button>
+        <button @click="stopSound()">Stop</button>
       </div>
+
+      <!-- NOTES DISPONILBES -->
       <div class="notes flex-center">
         <div>
           <h4 class="mb-3">Notes</h4>
@@ -67,13 +85,18 @@ export default {
         { name: "A" },
         { name: "B" },
       ],
+      effects: ["distortion", "bitCrusher","chorus", "chebyshev", "none"],
+      activeEffect: "chebyshev",
+      instruments: ["fmSynth", "amSynth", "synth"],
+      activeInstrument: "synth",
+
     };
   },
   methods: {
     playSound() {
       let synth;
+      let effect;
       // const now = Tone.now();
-      // let effect;
       // const seq = ["E4", "D#4", "E4", "D#4", "E4", "B3", "D4", "C4", "A3"];
       // INSTRUMENT 
       // if (this.instrument === 'fmSynth') synth = new Tone.FMSynth();
@@ -82,19 +105,16 @@ export default {
       synth = new Tone.Synth().toDestination(); 
 
       // EFFET
-      // if (this.effect !== 'none'){
-      //   if (this.effect === 'distortion') effect = new Tone.Distortion(1).toDestination();
-      //   if (this.effect === 'bitCrusher') effect = new Tone.BitCrusher(3).toDestination();
-      //   if (this.effect === 'chorus') effect = new Tone.Chorus(4, 2.5, 0.5).toDestination().start();
-      //   if (this.effect === 'chebyshev') effect = new Tone.Chebyshev(50).toDestination();
+      if (this.activeEffect !== 'none'){
+        if (this.activeEffect === 'distortion') effect = new Tone.Distortion(1).toDestination();
+        if (this.activeEffect === 'bitCrusher') effect = new Tone.BitCrusher(3).toDestination();
+        if (this.activeEffect === 'chorus') effect = new Tone.Chorus(4, 2.5, 0.5).toDestination().start();
+        if (this.activeEffect === 'chebyshev') effect = new Tone.Chebyshev(50).toDestination();
 
-      //   synth = synth.connect(effect);
-      // }
-      // else synth = synth.toDestination();
-      
-      // this.music.forEach((note, i) => {
-      //   synth.triggerAttackRelease(note + this.Height, "8n", now + i);
-      // })
+        synth = synth.connect(effect);
+      }
+      else synth = synth.toDestination();
+
       new Tone.Sequence((time, note) => {
         synth.triggerAttackRelease(note.name + '4', 0.1, time);
       }, this.sheet).start(0);
@@ -103,6 +123,9 @@ export default {
       // const analyser = new Tone.Analyser();
       // console.log(analyser);
     },
+    stopSound() {
+      Tone.Transport.stop();
+    }
   },
 };
 </script>
