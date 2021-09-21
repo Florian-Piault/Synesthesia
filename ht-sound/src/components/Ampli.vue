@@ -49,6 +49,7 @@ export default {
     playSound() {
       let synth;
       let effect;
+      const seq = ["E4", "D#4", "E4", "D#4", "E4", "B3", "D4", "C4", "A3"];
 
       // INSTRUMENT 
       if (this.instrument === 'fmSynth') synth = new Tone.FMSynth();
@@ -66,9 +67,6 @@ export default {
       }
       else synth = synth.toDestination();
       
-      // fur elise
-      const seq = ["E4", "D#4", "E4", "D#4", "E4", "B3", "D4", "C4", "A3"];
-      // const seq = ["C4", ["E4", "D4", "E4"], "G4", ["A4", "G4"]];
       new Tone.Sequence((time, note) => {
         synth.triggerAttackRelease(note, 0.1, time);
       }, seq).start(0);
@@ -83,6 +81,12 @@ export default {
 </script>
 
 <style>
+  .gauge {
+    width: 50%;
+    margin-bottom: 16px;
+
+  }
+
   .gauge-container {
     display: flex;
     flex-direction: row;

@@ -3,23 +3,23 @@
     <h1>TONE.JS</h1>
 
     <!-- HAUTEURS -->
-    <label>Hauteur:</label>
+    <!-- <label>Hauteur:</label>
     <select v-model="Height">
       <option v-for="height in heights" :value="height" :key="height"> {{height}}</option>
-    </select>
+    </select> -->
 
     <!-- EFFETS -->
-    <label>Effet:</label>
+    <!-- <label>Effet:</label>
     <select v-model="Effect">
       <option v-for="effect in effects" :value="effect" :key="effect"> {{effect}}</option>
-    </select>
+    </select> -->
 
     <!-- STOP -->
     <!-- <button @click="$refs.myNote.stopAudio()">STOP</button> -->
 
-    <div class="notes-panel">
+    <!-- <div class="notes-panel">
       <Note v-for="note in notes" :pitch="note + Height" :effect="Effect" :key="note" ref="myNote"></Note>
-    </div>
+    </div> -->
       
     <Ampli/>
 
@@ -28,42 +28,42 @@
 </template>
 
 <script>
-import Note from './components/Note.vue';
+// import Note from './components/Note.vue';
 import Ampli from './components/Ampli.vue';
 
 export default {
   name: 'App',
   components: {
-    Note,
+    // Note,
     Ampli
   },
   data() {
     return {
-        Height: '4',
-        Effect: 'none',
-        notes: [
-        'C',
-        'D',
-        'E',
-        'F',
-        'G',
-        'A',
-        'B',
-      ],
-      heights: [
-        '0',
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-      ],
-      effects: [
-        'none',
-        'reverb',
-        'chorus',
-        'bitCrusher'
-      ]
+      //   Height: '4',
+      //   Effect: 'none',
+      //   notes: [
+      //   'C',
+      //   'D',
+      //   'E',
+      //   'F',
+      //   'G',
+      //   'A',
+      //   'B',
+      // ],
+      // heights: [
+      //   '0',
+      //   '1',
+      //   '2',
+      //   '3',
+      //   '4',
+      //   '5',
+      // ],
+      // effects: [
+      //   'none',
+      //   'reverb',
+      //   'chorus',
+      //   'bitCrusher'
+      // ]
     }
   }
 }
