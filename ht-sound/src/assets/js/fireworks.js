@@ -5,9 +5,9 @@ export var fireworks = () => {
 var canvasEl = document.querySelector('.fireworks');
 var ctx = canvasEl.getContext('2d');
 var numberOfParticules = 30;
-var pointerX = 0;
-var pointerY = 0;
-var tap = ('ontouchstart' in window || navigator.msMaxTouchPoints) ? 'touchstart' : 'mousedown';
+// var pointerX = 0;
+// var pointerY = 0;
+// var tap = ('ontouchstart' in window || navigator.msMaxTouchPoints) ? 'touchstart' : 'mousedown';
 var colors = ['#FF1461', '#18FF92', '#5A87FF', '#FBF38C'];
 
 function setCanvasSize() {
@@ -18,10 +18,11 @@ function setCanvasSize() {
   canvasEl.getContext('2d').scale(2, 2);
 }
 
-function updateCoords(e) {
-  pointerX = e.clientX || e.touches[0].clientX;
-  pointerY = e.clientY || e.touches[0].clientY;
-}
+// function updateCoords(e) {
+//   pointerX = e.clientX || e.touches[0].clientX;
+//   pointerY = e.clientY || e.touches[0].clientY;
+
+// }
 
 function setParticuleDirection(p) {
   var angle = anime.random(0, 360) * Math.PI / 180;
@@ -70,6 +71,7 @@ function createCircle(x,y) {
 }
 
 function renderParticule(anim) {
+    ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
   for (var i = 0; i < anim.animatables.length; i++) {
     anim.animatables[i].target.draw();
   }
@@ -106,19 +108,22 @@ function animateParticules(x, y) {
   });
 }
 
-var render = anime({
-  duration: Infinity,
-  update: function() {
-    ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
-  }
-});
+// var render = anime({
+//   duration: Infinity,
+// //   update: function() {
+// //     ctx.clearRect(0, 0, canvasEl.width, canvasEl.height);
+// //   }
+// });
 
-document.addEventListener(tap, function(e) {
-  window.human = true;
-  render.play();
-  updateCoords(e);
-  animateParticules(pointerX, pointerY);
-}, false);
+// document.addEventListener(tap, function() {
+//   window.human = true;
+//   render.play();
+// //   updateCoords(e);
+// //     pointerX = window.innerWidth / 2
+// //     pointerY = window.innerHeight / 2
+// //   animateParticules(pointerX, pointerY);
+// }, false);
+
 
 var centerX = window.innerWidth / 2;
 var centerY = window.innerHeight / 2;
@@ -126,10 +131,10 @@ var centerY = window.innerHeight / 2;
 function autoClick() {
   if (window.human) return;
   animateParticules(
-    anime.random(centerX-50, centerX+50), 
-    anime.random(centerY-50, centerY+50)
+    anime.random(centerX-200, centerX+200), 
+    anime.random(centerY-200, centerY+200)
   );
-  anime({duration: 200}).finished.then(autoClick);
+//   anime({duration: 200}).finished.then(autoClick);
 }
 
 autoClick();

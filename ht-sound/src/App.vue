@@ -1,6 +1,7 @@
 <template>
   <main>
     <div class="mt-5 container">
+      <canvas class="fireworks"></canvas>
       <div class="header">menu</div>
       <div class="music">
         <div>
@@ -56,10 +57,11 @@
 <script>
 import draggable from "vuedraggable";
 import * as Tone from "tone";
+import { fireworks } from "./assets/js/fireworks";
 
 export default {
   components: {
-    draggable,
+    draggable
   },
   data() {
     return {
@@ -72,8 +74,8 @@ export default {
         { name: "F", label: "FA" },
         { name: "G", label: "SOL" },
         { name: "A", label: "LA" },
-        { name: "B", label: "SI" },
-      ],
+        { name: "B", label: "SI" }
+      ]
     };
   },
   methods: {
@@ -109,10 +111,10 @@ export default {
 
       // const analyser = new Tone.Analyser();
       // console.log(analyser);
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>
-  @import url("./assets/css/style.css");
+@import url("./assets/css/style.css");
 </style>
