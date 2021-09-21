@@ -7,27 +7,27 @@
           <h4 class="mb-3">Musique</h4>
           <draggable
             class="draggable-list"
-            :list="list1"
+            :list="sheet"
             :group="{ name: 'myGroup', put: true }"
           >
-            <div class="list-item" v-for="element in list1" :key="element.name">
+            <div class="list-item" v-for="element in sheet" :key="element.name">
               {{ element.name }}
             </div>
           </draggable>
         </div>
       </div>
       <div class="play flex-center">
-        <button>Play</button>
+        <button @click="playSound()">Play</button>
       </div>
       <div class="notes flex-center">
         <div>
           <h4 class="mb-3">Notes</h4>
           <draggable
             class="draggable-list"
-            :list="list2"
+            :list="availableNotes"
             :group="{ name: 'myGroup', pull: 'clone', put: false }"
           >
-            <div class="list-item" v-for="element in list2" :key="element.name">
+            <div class="list-item" v-for="element in availableNotes" :key="element.name">
               {{ element.name }}
             </div>
           </draggable>
@@ -37,7 +37,7 @@
           <h4 class="mb-3">Poubelle</h4>
           <draggable
             class="draggable-list trash"
-            :list="list3"
+            :list="trash"
             :group="{ name: 'myGroup', pull: 'clone', put: true }"
           >
           </draggable>
@@ -48,15 +48,17 @@
 </template>
 <script>
 import draggable from "vuedraggable";
+import * as Tone from 'tone';
+
 export default {
   components: {
     draggable,
   },
   data() {
     return {
-      list1: [],
-      list3: [],
-      list2: [
+      sheet: [],
+      trash: [],
+      availableNotes: [
         { name: "A" },
         { name: "B" },
         { name: "C" },
@@ -94,13 +96,12 @@ export default {
       //   synth.triggerAttackRelease(note + this.Height, "8n", now + i);
       // })
       new Tone.Sequence((time, note) => {
-        console.log("next tick")
-        synth.triggerAttackRelease(note.item + this.Height, 0.1, time);
-      }, this.music).start(0);
+        synth.triggerAttackRelease(note.name + '4', 0.1, time);
+      }, this.sheet).start(0);
       Tone.Transport.start();
     
-      const analyser = new Tone.Analyser();
-      console.log(analyser);
+      // const analyser = new Tone.Analyser();
+      // console.log(analyser);
     },
   },
 };
