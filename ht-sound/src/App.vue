@@ -77,11 +77,11 @@ export default {
       // const now = Tone.now();
       // let effect;
       // const seq = ["E4", "D#4", "E4", "D#4", "E4", "B3", "D4", "C4", "A3"];
-      // INSTRUMENT 
+      // INSTRUMENT
       // if (this.instrument === 'fmSynth') synth = new Tone.FMSynth();
       // else if (this.instrument === 'amSynth') synth = new Tone.AMSynth();
       // else if (this.instrument === 'synth') synth = new Tone.Synth();
-      synth = new Tone.Synth().toDestination(); 
+      synth = new Tone.Synth().toDestination();
 
       // EFFET
       // if (this.effect !== 'none'){
@@ -93,16 +93,16 @@ export default {
       //   synth = synth.connect(effect);
       // }
       // else synth = synth.toDestination();
-      
+
       // this.music.forEach((note, i) => {
       //   synth.triggerAttackRelease(note + this.Height, "8n", now + i);
       // })
       new Tone.Sequence((time, note) => {
-        console.log("next tick")
+        console.log("next tick");
         synth.triggerAttackRelease(note.item + this.Height, 0.1, time);
       }, this.music).start(0);
       Tone.Transport.start();
-    
+
       const analyser = new Tone.Analyser();
       console.log(analyser);
     },
