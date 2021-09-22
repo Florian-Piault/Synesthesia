@@ -1,7 +1,7 @@
 
 import anime from "animejs/lib/anime.es.js";
 
-export var fireworks = (gradient) => {
+export var fireworks = (gradient, id) => {
 var canvasEl = document.querySelector('.fireworks');
 var ctx = canvasEl.getContext('2d');
 var numberOfParticules = 30;
@@ -9,7 +9,7 @@ var numberOfParticules = 30;
 // var pointerY = 0;
 // var tap = ('ontouchstart' in window || navigator.msMaxTouchPoints) ? 'touchstart' : 'mousedown';
 var colors = gradient;
-// var note_element = document.querySelector('#'+id)
+var note_element = document.querySelector('#index_'+id)
 
 function setCanvasSize() {
   canvasEl.width = window.innerWidth * 2;
@@ -125,17 +125,19 @@ function animateParticules(x, y) {
 // //   animateParticules(pointerX, pointerY);
 // }, false);
 
-// function animateNotes(){
-//   anime.timeline().add({
-//     targets: note_element,
-//     translateY: 40,
-//     easing: 'easeOutElastic(1, .8)',
-//   }).add({
-//     targets: note_element,
-//     translateY: -40,
-//     easing: 'easeOutElastic(1, .8)',
-//   })
-// }
+function animateNotes(){
+  anime.timeline().add({
+    targets: note_element,
+    translateY: -20,
+    duration: 250,
+    easing: 'easeInOutExpo',
+  }).add({
+    targets: note_element,
+    translateY: 0,
+    duration: 250,
+    easing: 'easeInOutExpo',
+  })
+}
 var centerX = window.innerWidth / 2;
 var centerY = window.innerHeight / 2;
 
@@ -146,7 +148,7 @@ function autoClick() {
     anime.random(centerY-400, centerY+400)
   );
 
-  // animateNotes();
+  animateNotes();
 
 
 //   anime({duration: 200}).finished.then(autoClick);

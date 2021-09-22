@@ -38,8 +38,9 @@
               :style="
                 element.color !== '' ? 'background-color:' + element.color : ''
               "
-              v-for="element in sheet"
+              v-for="(element, index) in sheet"
               :key="element.name"
+              :id="'index_' + index"
             >
               {{ element.label }}
             </div>
@@ -100,7 +101,15 @@ export default {
   components: {
     draggable,
     Color,
-    Modale,
+    Modale
+  },
+  watch: {
+    sheet: function(newValue) {
+      newValue.forEach((element, index) => {
+        element.id = "index_" + index;
+      });
+      console.log();
+    }
   },
   data() {
     return {
@@ -109,17 +118,17 @@ export default {
       loopNumber: 1,
       tempo: 0.5,
       sheet: [
-        { name: "C4", label: "DO", color: "#ee74e1" },
-        { name: "C4", label: "DO", color: "#ee74e1" },
-        { name: "C4", label: "DO", color: "#ee74e1" },
-        { name: "D4", label: "RE", color: "#b197ff" },
-        { name: "E4", label: "MI", color: "#2bb6ff" },
-        { name: "D4", label: "RE", color: "#b197ff" },
-        { name: "C4", label: "DO", color: "#ee74e1" },
-        { name: "E4", label: "MI", color: "#2bb6ff" },
-        { name: "D4", label: "RE", color: "#b197ff" },
-        { name: "D4", label: "RE", color: "#b197ff" },
-        { name: "C4", label: "DO", color: "#ee74e1" },
+        { name: "C4", label: "DO", color: "#ee74e1", id: "index_0" },
+        { name: "C4", label: "DO", color: "#ee74e1", id: "index_1" },
+        { name: "C4", label: "DO", color: "#ee74e1", id: "index_2" },
+        { name: "D4", label: "RE", color: "#b197ff", id: "index_3" },
+        { name: "E4", label: "MI", color: "#2bb6ff", id: "index_4" },
+        { name: "D4", label: "RE", color: "#b197ff", id: "index_5" },
+        { name: "C4", label: "DO", color: "#ee74e1", id: "index_6" },
+        { name: "E4", label: "MI", color: "#2bb6ff", id: "index_7" },
+        { name: "D4", label: "RE", color: "#b197ff", id: "index_8" },
+        { name: "D4", label: "RE", color: "#b197ff", id: "index_9" },
+        { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" }
       ],
       trash: [],
       availableNotes: [
@@ -129,7 +138,7 @@ export default {
         { name: "F4", label: "FA", color: "#9163CB" },
         { name: "G4", label: "SOL", color: "#815AC0" },
         { name: "A4", label: "LA", color: "#7251B5" },
-        { name: "B4", label: "SI", color: "#6247AA" },
+        { name: "B4", label: "SI", color: "#6247AA" }
       ],
       effects: ["distortion", "bitCrusher", "chorus", "chebyshev", "none"],
       activeEffect: "none",
@@ -141,7 +150,7 @@ export default {
         { colorFrom: "#e89be0", colorTo: "#82f7cc", label: "Rainbow ☆" },
         { colorFrom: "#FBAB7E", colorTo: "#F7CE68", label: "Sunny ☀️" },
         { colorFrom: "#74EBD5", colorTo: "#9FACE6", label: "Rainy ☔" },
-        { colorFrom: "#8EC5FC", colorTo: "#E0C3FC", label: "Cloudy ☁️" },
+        { colorFrom: "#8EC5FC", colorTo: "#E0C3FC", label: "Cloudy ☁️" }
       ],
       gradient: [
         "#C19EE0",
@@ -150,10 +159,10 @@ export default {
         "#9163CB",
         "#815AC0",
         "#7251B5",
-        "#6247AA",
+        "#6247AA"
       ],
       gradient_BG: { id: 0, label: "Default" },
-      isModaleOpen: false,
+      isModaleOpen: false
     };
   },
   methods: {
@@ -186,10 +195,15 @@ export default {
         this.synth = new Tone.Synth();
         this.synth = this.synth.toDestination();
       }
-
+      let i = 0;
       this.sequence = new Tone.Sequence((time, note) => {
         this.synth.triggerAttackRelease(note.name, "8t", time);
-        fireworks(this.gradient);
+        if (this.sheet.length >= i) {
+          fireworks(this.gradient, i);
+          i++;
+        } else {
+          i = 0;
+        }
       }, this.sheet);
 
       this.sequence.loop = this.loopNumber;
@@ -209,8 +223,8 @@ export default {
       this.availableNotes.forEach((note, i) => (note.color = this.gradient[i]));
 
       // change les notes déjà entrées
-      this.availableNotes.map((exempleNote) => {
-        this.sheet.filter((sheetNote) =>
+      this.availableNotes.map(exempleNote => {
+        this.sheet.filter(sheetNote =>
           sheetNote.name === exempleNote.name
             ? (sheetNote.color = exempleNote.color)
             : null
@@ -228,7 +242,7 @@ export default {
     },
     cleanAll() {
       this.sheet = [];
-    },
+    }
   },
   computed: {
     bgButton() {
@@ -239,38 +253,38 @@ export default {
         this.gradient[this.gradient.length - 1] +
         " 100%)"
       );
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>
-  .wrap_animation {
-    overflow: hidden;
-    position: absolute;
-    pointer-events: none;
-    width: 100%;
-    height: 100%;
-    z-index: 1000;
-  }
-  .btn-container {
-    position: absolute;
-  }
-  .open-modale {
-    cursor: pointer;
-  }
-  .trash {
-    cursor: pointer;
-  }
+.wrap_animation {
+  overflow: hidden;
+  position: absolute;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+}
+.btn-container {
+  position: absolute;
+}
+.open-modale {
+  cursor: pointer;
+}
+.trash {
+  cursor: pointer;
+}
 
-  .slide-enter-active,
-  .slide-leave-active {
-    transition: 0.5s ease-in-out;
-    left: 0;
-  }
+.slide-enter-active,
+.slide-leave-active {
+  transition: 0.5s ease-in-out;
+  left: 0;
+}
 
-  .slide-enter,
-  .slide-leave-to {
-    left: -512px;
-  }
-  @import url("./assets/css/style.css");
+.slide-enter,
+.slide-leave-to {
+  left: -512px;
+}
+@import url("./assets/css/style.css");
 </style>
