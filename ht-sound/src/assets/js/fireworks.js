@@ -1,14 +1,15 @@
 
 import anime from "animejs/lib/anime.es.js";
 
-export var fireworks = () => {
+export var fireworks = (gradient) => {
 var canvasEl = document.querySelector('.fireworks');
 var ctx = canvasEl.getContext('2d');
 var numberOfParticules = 30;
 // var pointerX = 0;
 // var pointerY = 0;
 // var tap = ('ontouchstart' in window || navigator.msMaxTouchPoints) ? 'touchstart' : 'mousedown';
-var colors = ['#FF1461', '#18FF92', '#5A87FF', '#FBF38C'];
+var colors = gradient;
+// var note_element = document.querySelector('#'+id)
 
 function setCanvasSize() {
   canvasEl.width = window.innerWidth * 2;
@@ -26,7 +27,7 @@ function setCanvasSize() {
 
 function setParticuleDirection(p) {
   var angle = anime.random(0, 360) * Math.PI / 180;
-  var value = anime.random(50, 180);
+  var value = anime.random(120, 160); //!Change largeur des splashs
   var radius = [-1, 1][anime.random(0, 1)] * value;
   return {
     x: p.x + radius * Math.cos(angle),
@@ -39,7 +40,7 @@ function createParticule(x,y) {
   p.x = x;
   p.y = y;
   p.color = colors[anime.random(0, colors.length - 1)];
-  p.radius = anime.random(16, 32);
+  p.radius = anime.random(32, 64);
   p.endPos = setParticuleDirection(p);
   p.draw = function() {
     ctx.beginPath();
@@ -88,7 +89,7 @@ function animateParticules(x, y) {
     x: function(p) { return p.endPos.x; },
     y: function(p) { return p.endPos.y; },
     radius: 0.1,
-    duration: anime.random(1200, 1800),
+    duration: anime.random(600, 900),
     easing: 'easeOutExpo',
     update: renderParticule
   })
@@ -124,16 +125,30 @@ function animateParticules(x, y) {
 // //   animateParticules(pointerX, pointerY);
 // }, false);
 
-
+// function animateNotes(){
+//   anime.timeline().add({
+//     targets: note_element,
+//     translateY: 40,
+//     easing: 'easeOutElastic(1, .8)',
+//   }).add({
+//     targets: note_element,
+//     translateY: -40,
+//     easing: 'easeOutElastic(1, .8)',
+//   })
+// }
 var centerX = window.innerWidth / 2;
 var centerY = window.innerHeight / 2;
 
 function autoClick() {
   if (window.human) return;
   animateParticules(
-    anime.random(centerX-200, centerX+200), 
-    anime.random(centerY-200, centerY+200)
+    anime.random(centerX-400, centerX+400), 
+    anime.random(centerY-400, centerY+400)
   );
+
+  // animateNotes();
+
+
 //   anime({duration: 200}).finished.then(autoClick);
 }
 

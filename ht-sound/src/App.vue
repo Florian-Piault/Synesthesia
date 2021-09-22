@@ -1,5 +1,6 @@
 <template>
   <main :style="{ 'background-image': 'url(BG_' + gradient_BG.id + '.jpg)' }">
+    <div class="wrap_animation"><canvas class="fireworks"></canvas></div>
     <div class="mt-5 container">
       <div class="header">
         <!-- open modale  -->
@@ -93,12 +94,13 @@ import draggable from "vuedraggable";
 import Color from "./components/Color.vue";
 import Modale from "./components/Modale.vue";
 import * as Tone from "tone";
+import { fireworks } from "./assets/js/fireworks.js";
 
 export default {
   components: {
     draggable,
     Color,
-    Modale,
+    Modale
   },
   data() {
     return {
@@ -117,7 +119,7 @@ export default {
         { name: "E4", color: "#2bb6ff" },
         { name: "D4", color: "#b197ff" },
         { name: "D4", color: "#b197ff" },
-        { name: "C4", color: "#ee74e1" },
+        { name: "C4", color: "#ee74e1" }
       ],
       trash: [],
       availableNotes: [
@@ -127,7 +129,7 @@ export default {
         { name: "F4", color: "#9163CB" },
         { name: "G4", color: "#815AC0" },
         { name: "A4", color: "#7251B5" },
-        { name: "B4", color: "#6247AA" },
+        { name: "B4", color: "#6247AA" }
       ],
       effects: ["distortion", "bitCrusher", "chorus", "chebyshev", "none"],
       activeEffect: "none",
@@ -140,7 +142,7 @@ export default {
         { colorFrom: "#FBAB7E", colorTo: "#F7CE68", label: "Sunny ☀️" },
         { colorFrom: "#74EBD5", colorTo: "#9FACE6", label: "Rainy ☔" },
 
-        { colorFrom: "#8EC5FC", colorTo: "#E0C3FC", label: "Cloudy ☁️" },
+        { colorFrom: "#8EC5FC", colorTo: "#E0C3FC", label: "Cloudy ☁️" }
       ],
       gradient: [
         "#C19EE0",
@@ -149,10 +151,10 @@ export default {
         "#9163CB",
         "#815AC0",
         "#7251B5",
-        "#6247AA",
+        "#6247AA"
       ],
       gradient_BG: { id: 0, label: "Rainbow ☆" },
-      isModaleOpen: false,
+      isModaleOpen: false
     };
   },
   methods: {
@@ -188,6 +190,7 @@ export default {
 
       this.sequence = new Tone.Sequence((time, note) => {
         this.synth.triggerAttackRelease(note.name, "8t", time);
+        fireworks(this.gradient);
       }, this.sheet);
 
       this.sequence.loop = this.loopNumber;
@@ -207,8 +210,8 @@ export default {
       this.availableNotes.forEach((note, i) => (note.color = this.gradient[i]));
 
       // change les notes déjà entrées
-      this.availableNotes.map((exempleNote) => {
-        this.sheet.filter((sheetNote) =>
+      this.availableNotes.map(exempleNote => {
+        this.sheet.filter(sheetNote =>
           sheetNote.name === exempleNote.name
             ? (sheetNote.color = exempleNote.color)
             : null
@@ -223,7 +226,7 @@ export default {
     },
     openModale() {
       this.isModaleOpen = true;
-    },
+    }
   },
   computed: {
     bgButton() {
@@ -234,27 +237,34 @@ export default {
         this.gradient[this.gradient.length - 1] +
         " 100%)"
       );
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>
-  .btn-container {
-    position: absolute;
-  }
-  .open-modale {
-    cursor: pointer;
-  }
+.wrap_animation {
+  position: absolute;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+}
+.btn-container {
+  position: absolute;
+}
+.open-modale {
+  cursor: pointer;
+}
 
-  .slide-enter-active,
-  .slide-leave-active {
-    transition: 0.5s ease-in-out;
-    left: 0;
-  }
+.slide-enter-active,
+.slide-leave-active {
+  transition: 0.5s ease-in-out;
+  left: 0;
+}
 
-  .slide-enter,
-  .slide-leave-to {
-    left: -512px;
-  }
-  @import url("./assets/css/style.css");
+.slide-enter,
+.slide-leave-to {
+  left: -512px;
+}
+@import url("./assets/css/style.css");
 </style>
