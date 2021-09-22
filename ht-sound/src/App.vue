@@ -242,6 +242,7 @@ export default {
 </script>
 <style scoped>
   .wrap_animation {
+    overflow: hidden;
     position: absolute;
     pointer-events: none;
     width: 100%;
