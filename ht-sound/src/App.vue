@@ -33,11 +33,12 @@
             :group="{ name: 'myGroup', put: true }"
           >
             <div
+              @dblclick="removeFromSheet(i)"
               class="list-item"
               :style="
                 element.color !== '' ? 'background-color:' + element.color : ''
               "
-              v-for="element in sheet"
+              v-for="(element, i) in sheet"
               :key="element.name"
             >
               {{ element.label }}
@@ -64,6 +65,7 @@
             :group="{ name: 'myGroup', pull: 'clone', put: false }"
           >
             <div
+              @dblclick="addToSheet(element)"
               class="list-item"
               :style="
                 element.color !== '' ? 'background-color:' + element.color : ''
@@ -220,6 +222,12 @@ export default {
     },
     cleanAll() {
       this.sheet = [];
+    },
+    addToSheet(elt) {
+      this.sheet.push(elt);
+    },
+    removeFromSheet(i) {
+      this.sheet.splice(i, 1);
     },
   },
   computed: {
