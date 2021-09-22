@@ -65,7 +65,7 @@
         <div class="trash">
           <draggable
             class="draggable-list trashList"
-            :list="list3"
+            :list="trash"
             :group="{ name: 'myGroup', pull: 'clone', put: true }"
           >
           </draggable>
