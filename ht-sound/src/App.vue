@@ -40,7 +40,7 @@
               v-for="element in sheet"
               :key="element.name"
             >
-              {{ element.name }}
+              {{ element.label }}
             </div>
           </draggable>
         </div>
@@ -71,7 +71,7 @@
               v-for="element in availableNotes"
               :key="element.name"
             >
-              {{ element.name }}
+              {{ element.label }}
             </div>
           </draggable>
         </div>
@@ -107,33 +107,28 @@ export default {
       loopNumber: 1,
       tempo: 0.5,
       sheet: [
-        { name: "C4", color: "#ee74e1" },
-        { name: "C4", color: "#ee74e1" },
-        { name: "C4", color: "#ee74e1" },
-        { name: "D4", color: "#b197ff" },
-        { name: "E4", color: "#2bb6ff" },
-        { name: "D4", color: "#b197ff" },
-        { name: "C4", color: "#ee74e1" },
-        { name: "E4", color: "#2bb6ff" },
-        { name: "D4", color: "#b197ff" },
-        { name: "D4", color: "#b197ff" },
-        { name: "C4", color: "#ee74e1" },
+        { name: "C4", label: "Do", color: "#ee74e1" },
+        { name: "C4", label: "Do", color: "#ee74e1" },
+        { name: "C4", label: "Do", color: "#ee74e1" },
+        { name: "D4", label: "Ré", color: "#b197ff" },
+        { name: "E4", label: "Mi", color: "#2bb6ff" },
+        { name: "D4", label: "Ré", color: "#b197ff" },
+        { name: "C4", label: "Do", color: "#ee74e1" },
+        { name: "E4", label: "Mi", color: "#2bb6ff" },
+        { name: "D4", label: "Ré", color: "#b197ff" },
+        { name: "D4", label: "Ré", color: "#b197ff" },
+        { name: "C4", label: "Do", color: "#ee74e1" },
       ],
       trash: [],
       availableNotes: [
-        { name: "C4", color: "#C19EE0" },
-        { name: "D4", color: "#B185DB" },
-        { name: "E4", color: "#A06CD5" },
-        { name: "F4", color: "#9163CB" },
-        { name: "G4", color: "#815AC0" },
-        { name: "A4", color: "#7251B5" },
-        { name: "B4", color: "#6247AA" },
+        { name: "C4", label: "Do", color: "#C19EE0" },
+        { name: "D4", label: "Ré", color: "#B185DB" },
+        { name: "E4", label: "Mi", color: "#A06CD5" },
+        { name: "F4", label: "Fa", color: "#9163CB" },
+        { name: "G4", label: "Sol", color: "#815AC0" },
+        { name: "A4", label: "La", color: "#7251B5" },
+        { name: "B4", label: "Si", color: "#6247AA" },
       ],
-      effects: ["distortion", "bitCrusher", "chorus", "chebyshev", "none"],
-      activeEffect: "none",
-      instruments: ["fmSynth", "amSynth", "synth"],
-      activeInstrument: "synth",
-      activeTheme: "green",
       themes: [
         { colorFrom: "#C19EE0", colorTo: "#6247AA", label: "Default" },
         { colorFrom: "#e89be0", colorTo: "#82f7cc", label: "Rainbow ☆" },
