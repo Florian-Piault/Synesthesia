@@ -99,6 +99,7 @@ export default {
   data() {
     return {
       synth: null,
+      sequence: null,
       loopNumber: 1,
       tempo: 2,
       sheet: [
@@ -147,6 +148,11 @@ export default {
   methods: {
     playSound() {
       Tone.Transport.stop();
+      Tone.Transport.clear();
+      if(this.sequence) this.sequence.dispose();
+
+      // if (this.sequence) this.sequence.removeAll();
+      // if (this.synth) this.synth.dispose();
       let effect;
       // const now = Tone.now();
       // const seq = ["E4", "D#4", "E4", "D#4", "E4", "B3", "D4", "C4", "A3"];
@@ -170,17 +176,20 @@ export default {
         this.synth = this.synth.connect(effect);
       } else this.synth = this.synth.toDestination();
 
-      const seq = new Tone.Sequence((time, note) => {
+      this.sequence = new Tone.Sequence((time, note) => {
+        console.log(note.name)
         this.synth.triggerAttackRelease(note.name + "4", "8n", time);
       }, this.sheet);
 
-      seq.loop = this.loopNumber;
-      seq.playbackRate = this.tempo;
-      seq.start(0);
+      this.sequence.loop = this.loopNumber;
+      // seq.playbackRate = this.tempo;
+      this.sequence.start(0);
       Tone.Transport.start();
     },
     stopSound() {
       Tone.Transport.stop();
+      Tone.Transport.clear();
+      this.sequence.dispose();
     },
     changeColors(colors) {
       this.gradient = colors;
