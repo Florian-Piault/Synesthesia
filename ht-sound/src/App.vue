@@ -41,7 +41,7 @@
               v-for="element in sheet"
               :key="element.name"
             >
-              {{ element.name }}
+              {{ element.label }}
             </div>
           </draggable>
         </div>
@@ -72,7 +72,7 @@
               v-for="element in availableNotes"
               :key="element.name"
             >
-              {{ element.name }}
+              {{ element.label }}
             </div>
           </draggable>
         </div>
@@ -109,27 +109,27 @@ export default {
       loopNumber: 1,
       tempo: 0.5,
       sheet: [
-        { name: "C4", color: "#ee74e1" },
-        { name: "C4", color: "#ee74e1" },
-        { name: "C4", color: "#ee74e1" },
-        { name: "D4", color: "#b197ff" },
-        { name: "E4", color: "#2bb6ff" },
-        { name: "D4", color: "#b197ff" },
-        { name: "C4", color: "#ee74e1" },
-        { name: "E4", color: "#2bb6ff" },
-        { name: "D4", color: "#b197ff" },
-        { name: "D4", color: "#b197ff" },
-        { name: "C4", color: "#ee74e1" },
+        { name: "C4", label: "DO", color: "#ee74e1" },
+        { name: "C4", label: "DO", color: "#ee74e1" },
+        { name: "C4", label: "DO", color: "#ee74e1" },
+        { name: "D4", label: "RE", color: "#b197ff" },
+        { name: "E4", label: "MI", color: "#2bb6ff" },
+        { name: "D4", label: "RE", color: "#b197ff" },
+        { name: "C4", label: "DO", color: "#ee74e1" },
+        { name: "E4", label: "MI", color: "#2bb6ff" },
+        { name: "D4", label: "RE", color: "#b197ff" },
+        { name: "D4", label: "RE", color: "#b197ff" },
+        { name: "C4", label: "DO", color: "#ee74e1" },
       ],
       trash: [],
       availableNotes: [
-        { name: "C4", color: "#C19EE0" },
-        { name: "D4", color: "#B185DB" },
-        { name: "E4", color: "#A06CD5" },
-        { name: "F4", color: "#9163CB" },
-        { name: "G4", color: "#815AC0" },
-        { name: "A4", color: "#7251B5" },
-        { name: "B4", color: "#6247AA" },
+        { name: "C4", label: "DO", color: "#C19EE0" },
+        { name: "D4", label: "RE", color: "#B185DB" },
+        { name: "E4", label: "MI", color: "#A06CD5" },
+        { name: "F4", label: "FA", color: "#9163CB" },
+        { name: "G4", label: "SOL", color: "#815AC0" },
+        { name: "A4", label: "LA", color: "#7251B5" },
+        { name: "B4", label: "SI", color: "#6247AA" },
       ],
       effects: ["distortion", "bitCrusher", "chorus", "chebyshev", "none"],
       activeEffect: "none",
