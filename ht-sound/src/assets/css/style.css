@@ -71,6 +71,7 @@ color: white;
   }
 
   .notes .draggable-list{
+      min-width: 0 !important;
     background: none;  
     backdrop-filter: blur(0);
   }
