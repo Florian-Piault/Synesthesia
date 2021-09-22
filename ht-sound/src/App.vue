@@ -183,15 +183,15 @@ export default {
         }
         if (this.gradient_BG.id === 2) {
           this.synth = new Tone.Synth();
-          effect = new Tone.BitCrusher(3).toDestination();
+          effect = new Tone.BitCrusher(2).toDestination();
         }
         if (this.gradient_BG.id === 3) {
           this.synth = new Tone.Synth();
-          effect = new Tone.Chorus(4, 2.5, 0.5).toDestination().start();
+          effect = new Tone.Chorus(6, 2.5, 0.5).toDestination().start();
         }
         if (this.gradient_BG.id === 4) {
           this.synth = new Tone.FMSynth();
-          effect = new Tone.Chebyshev(50).toDestination();
+          effect = new Tone.Chebyshev(2).toDestination();
         }
 
         this.synth = this.synth.connect(effect);
