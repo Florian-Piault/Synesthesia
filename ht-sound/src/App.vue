@@ -14,9 +14,9 @@
           <Modale v-if="isModaleOpen" @closeModale="closeModale()">
             <h2>Choissiez votre palette de couleurs</h2>
             <Color
-              v-for="theme in themes"
+              v-for="(theme, index) in themes"
               :theme="theme"
-              @changeColors="changeColors($event)"
+              @changeColors="changeColors($event, index)"
               :key="theme.color"
             ></Color>
           </Modale>
