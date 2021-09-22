@@ -112,7 +112,7 @@ export default {
     Modale,
   },
   watch: {
-    sheet: function(newValue) {
+    sheet: function (newValue) {
       newValue.forEach((element, index) => {
         element.id = "index_" + index;
       });
@@ -136,6 +136,16 @@ export default {
         { name: "E4", label: "MI", color: "#2bb6ff", id: "index_7" },
         { name: "D4", label: "RE", color: "#b197ff", id: "index_8" },
         { name: "D4", label: "RE", color: "#b197ff", id: "index_9" },
+        { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
+        { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
+        { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
+        { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
+        { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
+        { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
+        { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
+        { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
+        { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
+        { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
         { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
       ],
       trash: [],
@@ -270,33 +280,33 @@ export default {
 };
 </script>
 <style scoped>
-.wrap_animation {
-  overflow: hidden;
-  position: absolute;
-  pointer-events: none;
-  width: 100%;
-  height: 100%;
-  z-index: 1000;
-}
-.btn-container {
-  position: absolute;
-}
-.open-modale {
-  cursor: pointer;
-}
-.trash {
-  cursor: pointer;
-}
+  .wrap_animation {
+    overflow: hidden;
+    position: absolute;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+  }
+  .btn-container {
+    position: absolute;
+  }
+  .open-modale {
+    cursor: pointer;
+  }
+  .trash {
+    cursor: pointer;
+  }
 
-.slide-enter-active,
-.slide-leave-active {
-  transition: 0.5s ease-in-out;
-  left: 0;
-}
+  .slide-enter-active,
+  .slide-leave-active {
+    transition: 0.5s ease-in-out;
+    left: 0;
+  }
 
-.slide-enter,
-.slide-leave-to {
-  left: -512px;
-}
-@import url("./assets/css/style.css");
+  .slide-enter,
+  .slide-leave-to {
+    left: -512px;
+  }
+  @import url("./assets/css/style.css");
 </style>
