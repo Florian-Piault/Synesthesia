@@ -17,6 +17,7 @@
     "vuedraggable": "^2.24.2"
   },
   "devDependencies": {
+    "@types/node": "^16.9.6",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
