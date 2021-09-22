@@ -5,7 +5,7 @@
       <div class="header">
         <!-- open modale  -->
         <div v-if="!isModaleOpen" class="btn-container">
-          <button class="open-modale" @click="openModale()">
+          <button class="open-modale button-modale" @click="openModale()">
             <img src="@/assets/menu.svg" alt="close" class="open-modale" />
           </button>
         </div>

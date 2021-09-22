@@ -133,3 +133,24 @@ h1{
   border-radius: 30px; */
 }
 
+.button-modale{
+  height: 40px;
+  width: 40px;
+  margin: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  padding: 0;
+}
+.button-modale:hover{
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.button-modale img{
+  transition: transform 1s;
+}
+
+.button-modale:hover img{
+  transform: rotate(45deg);
+}
