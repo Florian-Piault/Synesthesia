@@ -2,15 +2,25 @@
   <main>
     <div class="mt-5 container">
       <div class="header">
-        <button @click="openModale()">open</button>
-        <Modale v-if="isModaleOpen" @closeModale="closeModale()">
-          <Color
-            v-for="theme in themes"
-            :theme="theme"
-            @changeColors="changeColors($event)"
-            :key="theme.color"
-          ></Color>
-        </Modale>
+        <!-- open modale  -->
+        <div v-if="!isModaleOpen" class="btn-container">
+          <button class="open-modale" @click="openModale()">
+            <img src="@/assets/menu.svg" alt="close" class="open-modale">
+          </button>
+        </div>
+
+        <!-- modale -->
+        <transition appear mode="in-out" name="slide">
+          <Modale v-if="isModaleOpen" @closeModale="closeModale()">
+            <h2> Choissiez votre palette de couleurs</h2>
+            <Color
+              v-for="theme in themes"
+              :theme="theme"
+              @changeColors="changeColors($event)"
+              :key="theme.color"
+            ></Color>
+          </Modale>
+        </transition>
       </div>
 
       <!-- PARTITION -->
@@ -198,5 +208,22 @@ export default {
 };
 </script>
 <style scoped>
+  .btn-container {
+    position: absolute;
+  }
+  .open-modale {
+    cursor: pointer;
+  }
+
+  .slide-enter-active,
+.slide-leave-active {
+	transition: 0.5s ease-in-out;
+	left: 0;
+}
+
+.slide-enter,
+.slide-leave-to {
+	left: -512px;
+}
   @import url("./assets/css/style.css");
 </style>
