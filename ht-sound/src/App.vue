@@ -2,17 +2,10 @@
   <main>
     <div class="mt-5 container">
       <div class="header">
-        <Color v-for="theme in themes" :theme="theme" @changeColors='changeColors($event)' :key="theme.color"></Color>
-        <!-- EFFET -->
-        <!-- <label>Effet:</label>
-        <select v-model="activeEffect">
-          <option v-for="e in effects" :value="e" :key="e"> {{e}}</option>
-        </select> -->
-        <!-- INSTRUMENT -->
-        <!-- <label>Instrument:</label>
-        <select v-model="activeInstrument">
-          <option v-for="i in instruments" :value="i" :key="i"> {{i}}</option>
-        </select> -->
+        <button @click="openModale()"> open </button>
+        <Modale v-if="isModaleOpen" @closeModale="closeModale()">
+          <Color v-for="theme in themes" :theme="theme" @changeColors='changeColors($event)' :key="theme.color"></Color>
+        </Modale>
       </div>
 
       <!-- PARTITION -->
@@ -62,42 +55,46 @@
           </draggable>
         </div>
       </div>
-    <!-- <div class="notes-panel">
-      <Note v-for="(note,i) in notes" :pitch="note + Height" :effect="effect" :key="note" :couleur='colors.length==0 ? "" : colors[i]'></Note>  
-    </div>
-
-    <label for="">Choisir base de couleurs pour la palette</label>
-    <div class="colorsPanel">
-      <Color v-for="color in themes" :color="color" @changeColors='changeColors($event)' :key="color"></Color> -->
     </div> 
   </main>
 </template>
 <script>
 import draggable from 'vuedraggable';
 import Color from './components/Color.vue';
+import Modale from './components/Modale.vue';
 import * as Tone from 'tone';
 
 export default {
   components: {
     draggable,
-    Color
-    // Note,
+    Color,
+    Modale
   },
   data() {
     return {
-      sheet: [],
+      synth: null,
+      loopNumber: 1,
+      tempo: 2,
+      sheet: [{ name: "C", color: '#ff6d93' },
+        { name: "D", color: '#ef5b7a' },
+        { name: "E", color: '#dd4a61' },
+        { name: "F", color: '#cb3949' },
+        { name: "G", color: '#b72832' },
+        { name: "A", color: '#a3161b' },
+        { name: "B", color: '#8e0000' },
+      ],
       trash: [],
       availableNotes: [
-        { name: "C", color: '' },
-        { name: "D", color: '' },
-        { name: "E", color: '' },
-        { name: "F", color: '' },
-        { name: "G", color: '' },
-        { name: "A", color: '' },
-        { name: "B", color: '' },
+        { name: "C", color: '#ff6d93' },
+        { name: "D", color: '#ef5b7a' },
+        { name: "E", color: '#dd4a61' },
+        { name: "F", color: '#cb3949' },
+        { name: "G", color: '#b72832' },
+        { name: "A", color: '#a3161b' },
+        { name: "B", color: '#8e0000' },
       ],
       effects: ["distortion", "bitCrusher","chorus", "chebyshev", "none"],
-      activeEffect: "chebyshev",
+      activeEffect: "none",
       instruments: ["fmSynth", "amSynth", "synth"],
       activeInstrument: "synth",
       activeTheme: "green",
@@ -108,13 +105,14 @@ export default {
         { colorFrom: "#9bc5c3", colorTo: "#6d66ca", label: "BLEU"},
         { colorFrom: "#fafa5e", colorTo: "#2A4858", label: "VIOLET-BLEU" }
       ],
-      gradient: [],
+      gradient: ["#ff6d93","#ef5b7a","#dd4a61","#cb3949","#b72832","#a3161b","#8e0000"],
+      isModaleOpen: false,
     }
     
   },
   methods: {
     playSound() {
-      let synth;
+      Tone.Transport.stop();
       let effect;
       // const now = Tone.now();
       // const seq = ["E4", "D#4", "E4", "D#4", "E4", "B3", "D4", "C4", "A3"];
@@ -122,7 +120,7 @@ export default {
       // if (this.instrument === 'fmSynth') synth = new Tone.FMSynth();
       // else if (this.instrument === 'amSynth') synth = new Tone.AMSynth();
       // else if (this.instrument === 'synth') synth = new Tone.Synth();
-      synth = new Tone.Synth().toDestination(); 
+      this.synth = new Tone.Synth();
 
       // EFFET
       if (this.activeEffect !== 'none'){
@@ -131,17 +129,18 @@ export default {
         if (this.activeEffect === 'chorus') effect = new Tone.Chorus(4, 2.5, 0.5).toDestination().start();
         if (this.activeEffect === 'chebyshev') effect = new Tone.Chebyshev(50).toDestination();
 
-        synth = synth.connect(effect);
+        this.synth = this.synth.connect(effect);
       }
-      else synth = synth.toDestination();
+      else this.synth = this.synth.toDestination();
 
-      new Tone.Sequence((time, note) => {
-        synth.triggerAttackRelease(note.name + '4', 0.1, time);
-      }, this.sheet).start(0);
+      const seq = new Tone.Sequence((time, note) => {
+        this.synth.triggerAttackRelease(note.name + '4', "8n", time);
+      }, this.sheet);
+
+      seq.loop = this.loopNumber;
+      seq.playbackRate = this.tempo;
+      seq.start(0);
       Tone.Transport.start();
-    
-      // const analyser = new Tone.Analyser();
-      // console.log(analyser);
     },
     stopSound() {
       Tone.Transport.stop();
@@ -149,6 +148,20 @@ export default {
     changeColors(colors){
       this.gradient = colors;
       this.availableNotes.forEach((note,i) => note.color = this.gradient[i]);
+
+      // change les notes déjà entrées
+      this.availableNotes.map(exempleNote => {
+        this.sheet.filter(sheetNote => sheetNote.name === exempleNote.name ? sheetNote.color = exempleNote.color : null);
+      })
+
+      // ferme la modale
+      this.closeModale();
+    },
+    closeModale() {
+      this.isModaleOpen = false;
+    },
+    openModale() {
+      this.isModaleOpen = true;
     }
   }
 }

@@ -23,7 +23,6 @@ export default {
   mounted() {
     const colors = chroma.scale([this.theme.colorFrom,this.theme.colorTo]).mode('lch').colors(7);
     this.bgColor = "background: linear-gradient(90deg, " + colors[0] + " 0%, " + colors[colors.length - 1] + " 100%";
-console.log(this.bgColor)
   }
 }
 </script>
