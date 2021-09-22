@@ -1,18 +1,18 @@
 <template>
-  <main>
+  <main :style="{ 'background-image': 'url(BG_' + gradient_BG.id + '.jpg)' }">
     <div class="mt-5 container">
       <div class="header">
         <!-- open modale  -->
         <div v-if="!isModaleOpen" class="btn-container">
           <button class="open-modale" @click="openModale()">
-            <img src="@/assets/menu.svg" alt="close" class="open-modale">
+            <img src="@/assets/menu.svg" alt="close" class="open-modale" />
           </button>
         </div>
 
         <!-- modale -->
         <transition appear mode="in-out" name="slide">
           <Modale v-if="isModaleOpen" @closeModale="closeModale()">
-            <h2> Choissiez votre palette de couleurs</h2>
+            <h2>Choissiez votre palette de couleurs</h2>
             <Color
               v-for="theme in themes"
               :theme="theme"
@@ -24,7 +24,8 @@
       </div>
 
       <!-- PARTITION -->
-      <div class="music">
+      <div class="music column">
+        <h1>Compose your colored combinaison</h1>
         <div>
           <draggable
             class="draggable-list"
@@ -43,12 +44,15 @@
             </div>
           </draggable>
         </div>
+        <p class="theme_label">
+          {{ gradient_BG.label }}
+        </p>
       </div>
 
       <!-- BUTTONS -->
       <div class="play flex-center">
-        <button @click="playSound()">Play</button>
-        <button @click="stopSound()">Stop</button>
+        <button @click="playSound()">Discover your song</button>
+        <button @click="stopSound()">Re compose</button>
       </div>
 
       <!-- NOTES DISPONILBES -->
@@ -103,17 +107,17 @@ export default {
       loopNumber: 1,
       tempo: 0.5,
       sheet: [
-        {name:"C4",color:"#ee74e1",},
-        {name:"C4",color:"#ee74e1",},
-        {name:"C4",color:"#ee74e1",},
-        {name:"D4",color:"#b197ff",},
-        {name:"E4",color:"#2bb6ff",},
-        {name:"D4",color:"#b197ff",},
-        {name:"C4",color:"#ee74e1",},
-        {name:"E4",color:"#2bb6ff",},
-        {name:"D4",color:"#b197ff",},
-        {name:"D4",color:"#b197ff",},
-        {name:"C4",color:"#ee74e1",}
+        { name: "C4", color: "#ee74e1" },
+        { name: "C4", color: "#ee74e1" },
+        { name: "C4", color: "#ee74e1" },
+        { name: "D4", color: "#b197ff" },
+        { name: "E4", color: "#2bb6ff" },
+        { name: "D4", color: "#b197ff" },
+        { name: "C4", color: "#ee74e1" },
+        { name: "E4", color: "#2bb6ff" },
+        { name: "D4", color: "#b197ff" },
+        { name: "D4", color: "#b197ff" },
+        { name: "C4", color: "#ee74e1" },
       ],
       trash: [],
       availableNotes: [
@@ -131,21 +135,23 @@ export default {
       activeInstrument: "synth",
       activeTheme: "green",
       themes: [
-        { colorFrom: "#85FFBD", colorTo: "#FFFB7D", label: "VERT" },
-        { colorFrom: "#EE74E1", colorTo: "#3EECAC", label: "ROSE" },
-        { colorFrom: "ff6d93", colorTo: "8e0000", label: "MARRON" },
-        { colorFrom: "#9bc5c3", colorTo: "#6d66ca", label: "BLEU" },
-        { colorFrom: "#fafa5e", colorTo: "#2A4858", label: "VIOLET-BLEU" },
+        { colorFrom: "#C19EE0", colorTo: "#6247AA", label: "Default" },
+        { colorFrom: "#e89be0", colorTo: "#82f7cc", label: " Rainbow ☆" },
+        { colorFrom: "#FBAB7E", colorTo: "#F7CE68", label: "Sunny ☀️" },
+        { colorFrom: "#74EBD5", colorTo: "#9FACE6", label: "Rainy ☔" },
+
+        { colorFrom: "#8EC5FC", colorTo: "#E0C3FC", label: "Cloudy ☁️" },
       ],
       gradient: [
-        "#ff6d93",
-        "#ef5b7a",
-        "#dd4a61",
-        "#cb3949",
-        "#b72832",
-        "#a3161b",
-        "#8e0000",
+        "#C19EE0",
+        "#B185DB",
+        "#A06CD5",
+        "#9163CB",
+        "#815AC0",
+        "#7251B5",
+        "#6247AA",
       ],
+      gradient_BG: { id: 0, label: "Rainbow ☆" },
       isModaleOpen: false,
     };
   },
@@ -153,7 +159,7 @@ export default {
     playSound() {
       Tone.Transport.stop();
       Tone.Transport.clear();
-      if(this.sequence) this.sequence.dispose();
+      if (this.sequence) this.sequence.dispose();
 
       // if (this.sequence) this.sequence.removeAll();
       // if (this.synth) this.synth.dispose();
@@ -181,7 +187,7 @@ export default {
       } else this.synth = this.synth.toDestination();
 
       this.sequence = new Tone.Sequence((time, note) => {
-         this.synth.triggerAttackRelease(note.name, "8t", time);        
+        this.synth.triggerAttackRelease(note.name, "8t", time);
       }, this.sheet);
 
       this.sequence.loop = this.loopNumber;
@@ -194,8 +200,10 @@ export default {
       Tone.Transport.clear();
       this.sequence.dispose();
     },
-    changeColors(colors) {
-      this.gradient = colors;
+    changeColors(colors, index) {
+      this.gradient_BG.id = index;
+      this.gradient_BG.label = colors.label;
+      this.gradient = colors.colors;
       this.availableNotes.forEach((note, i) => (note.color = this.gradient[i]));
 
       // change les notes déjà entrées
@@ -217,25 +225,36 @@ export default {
       this.isModaleOpen = true;
     },
   },
+  computed: {
+    bgButton() {
+      return (
+        "color: linear-gradient(0deg, " +
+        this.gradient[0] +
+        " 0%, " +
+        this.gradient[this.gradient.length - 1] +
+        " 100%)"
+      );
+    },
+  },
 };
 </script>
 <style scoped>
-  .btn-container {
-    position: absolute;
-  }
-  .open-modale {
-    cursor: pointer;
-  }
+.btn-container {
+  position: absolute;
+}
+.open-modale {
+  cursor: pointer;
+}
 
-  .slide-enter-active,
+.slide-enter-active,
 .slide-leave-active {
-	transition: 0.5s ease-in-out;
-	left: 0;
+  transition: 0.5s ease-in-out;
+  left: 0;
 }
 
 .slide-enter,
 .slide-leave-to {
-	left: -512px;
+  left: -512px;
 }
-  @import url("./assets/css/style.css");
+@import url("./assets/css/style.css");
 </style>
