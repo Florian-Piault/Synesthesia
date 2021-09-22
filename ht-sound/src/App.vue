@@ -112,7 +112,7 @@ export default {
     Modale,
   },
   watch: {
-    sheet: function (newValue) {
+    sheet: function(newValue) {
       newValue.forEach((element, index) => {
         element.id = "index_" + index;
       });
@@ -147,6 +147,7 @@ export default {
         { name: "G4", label: "SOL", color: "#815AC0" },
         { name: "A4", label: "LA", color: "#7251B5" },
         { name: "B4", label: "SI", color: "#6247AA" },
+        { name: "C4", label: "-", color: "#fff" },
       ],
       themes: [
         { colorFrom: "#C19EE0", colorTo: "#6247AA", label: "Default" },
@@ -200,7 +201,9 @@ export default {
       }
       let i = 0;
       this.sequence = new Tone.Sequence((time, note) => {
-        this.synth.triggerAttackRelease(note.name, "8t", time);
+        if (note.label === "-")
+          this.synth.triggerAttackRelease(note.name, "8t", time, 0);
+        else this.synth.triggerAttackRelease(note.name, "8t", time);
         if (this.sheet.length >= i) {
           fireworks(this.gradient, i);
           i++;
@@ -267,33 +270,33 @@ export default {
 };
 </script>
 <style scoped>
-  .wrap_animation {
-    overflow: hidden;
-    position: absolute;
-    pointer-events: none;
-    width: 100%;
-    height: 100%;
-    z-index: 1000;
-  }
-  .btn-container {
-    position: absolute;
-  }
-  .open-modale {
-    cursor: pointer;
-  }
-  .trash {
-    cursor: pointer;
-  }
+.wrap_animation {
+  overflow: hidden;
+  position: absolute;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+}
+.btn-container {
+  position: absolute;
+}
+.open-modale {
+  cursor: pointer;
+}
+.trash {
+  cursor: pointer;
+}
 
-  .slide-enter-active,
-  .slide-leave-active {
-    transition: 0.5s ease-in-out;
-    left: 0;
-  }
+.slide-enter-active,
+.slide-leave-active {
+  transition: 0.5s ease-in-out;
+  left: 0;
+}
 
-  .slide-enter,
-  .slide-leave-to {
-    left: -512px;
-  }
-  @import url("./assets/css/style.css");
+.slide-enter,
+.slide-leave-to {
+  left: -512px;
+}
+@import url("./assets/css/style.css");
 </style>
