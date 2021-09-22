@@ -13,7 +13,7 @@
         <!-- modale -->
         <transition appear mode="in-out" name="slide">
           <Modale v-if="isModaleOpen" @closeModale="closeModale()">
-            <h2>Choissiez votre palette de couleurs</h2>
+            <h2>Chose your palette of colors</h2>
             <Color
               v-for="(theme, index) in themes"
               :theme="theme"
@@ -26,7 +26,7 @@
 
       <!-- PARTITION -->
       <div class="music column">
-        <h1>Compose your colored combinaison</h1>
+        <h1>Compose your colored combination</h1>
         <div>
           <draggable
             class="draggable-list"
@@ -100,7 +100,7 @@ export default {
   components: {
     draggable,
     Color,
-    Modale
+    Modale,
   },
   data() {
     return {
@@ -119,7 +119,7 @@ export default {
         { name: "E4", color: "#2bb6ff" },
         { name: "D4", color: "#b197ff" },
         { name: "D4", color: "#b197ff" },
-        { name: "C4", color: "#ee74e1" }
+        { name: "C4", color: "#ee74e1" },
       ],
       trash: [],
       availableNotes: [
@@ -129,7 +129,7 @@ export default {
         { name: "F4", color: "#9163CB" },
         { name: "G4", color: "#815AC0" },
         { name: "A4", color: "#7251B5" },
-        { name: "B4", color: "#6247AA" }
+        { name: "B4", color: "#6247AA" },
       ],
       effects: ["distortion", "bitCrusher", "chorus", "chebyshev", "none"],
       activeEffect: "none",
@@ -138,11 +138,10 @@ export default {
       activeTheme: "green",
       themes: [
         { colorFrom: "#C19EE0", colorTo: "#6247AA", label: "Default" },
-        { colorFrom: "#e89be0", colorTo: "#82f7cc", label: " Rainbow ☆" },
+        { colorFrom: "#e89be0", colorTo: "#82f7cc", label: "Rainbow ☆" },
         { colorFrom: "#FBAB7E", colorTo: "#F7CE68", label: "Sunny ☀️" },
         { colorFrom: "#74EBD5", colorTo: "#9FACE6", label: "Rainy ☔" },
-
-        { colorFrom: "#8EC5FC", colorTo: "#E0C3FC", label: "Cloudy ☁️" }
+        { colorFrom: "#8EC5FC", colorTo: "#E0C3FC", label: "Cloudy ☁️" },
       ],
       gradient: [
         "#C19EE0",
@@ -151,10 +150,10 @@ export default {
         "#9163CB",
         "#815AC0",
         "#7251B5",
-        "#6247AA"
+        "#6247AA",
       ],
       gradient_BG: { id: 0, label: "Rainbow ☆" },
-      isModaleOpen: false
+      isModaleOpen: false,
     };
   },
   methods: {
@@ -163,30 +162,30 @@ export default {
       Tone.Transport.clear();
       if (this.sequence) this.sequence.dispose();
 
-      // if (this.sequence) this.sequence.removeAll();
-      // if (this.synth) this.synth.dispose();
       let effect;
-      // const now = Tone.now();
-      // const seq = ["E4", "D#4", "E4", "D#4", "E4", "B3", "D4", "C4", "A3"];
-      // INSTRUMENT
-      // if (this.instrument === 'fmSynth') synth = new Tone.FMSynth();
-      // else if (this.instrument === 'amSynth') synth = new Tone.AMSynth();
-      // else if (this.instrument === 'synth') synth = new Tone.Synth();
-      this.synth = new Tone.Synth();
-
-      // EFFET
-      if (this.activeEffect !== "none") {
-        if (this.activeEffect === "distortion")
+      if (this.gradient_BG.id !== 0) {
+        if (this.gradient_BG.id === 1) {
+          this.synth = new Tone.Synth();
           effect = new Tone.Distortion(1).toDestination();
-        if (this.activeEffect === "bitCrusher")
+        }
+        if (this.gradient_BG.id === 2) {
+          this.synth = new Tone.Synth();
           effect = new Tone.BitCrusher(3).toDestination();
-        if (this.activeEffect === "chorus")
+        }
+        if (this.gradient_BG.id === 3) {
+          this.synth = new Tone.Synth();
           effect = new Tone.Chorus(4, 2.5, 0.5).toDestination().start();
-        if (this.activeEffect === "chebyshev")
+        }
+        if (this.gradient_BG.id === 4) {
+          this.synth = new Tone.FMSynth();
           effect = new Tone.Chebyshev(50).toDestination();
+        }
 
         this.synth = this.synth.connect(effect);
-      } else this.synth = this.synth.toDestination();
+      } else {
+        this.synth = new Tone.Synth();
+        this.synth = this.synth.toDestination();
+      }
 
       this.sequence = new Tone.Sequence((time, note) => {
         this.synth.triggerAttackRelease(note.name, "8t", time);
@@ -210,8 +209,8 @@ export default {
       this.availableNotes.forEach((note, i) => (note.color = this.gradient[i]));
 
       // change les notes déjà entrées
-      this.availableNotes.map(exempleNote => {
-        this.sheet.filter(sheetNote =>
+      this.availableNotes.map((exempleNote) => {
+        this.sheet.filter((sheetNote) =>
           sheetNote.name === exempleNote.name
             ? (sheetNote.color = exempleNote.color)
             : null
@@ -226,7 +225,7 @@ export default {
     },
     openModale() {
       this.isModaleOpen = true;
-    }
+    },
   },
   computed: {
     bgButton() {
@@ -237,34 +236,34 @@ export default {
         this.gradient[this.gradient.length - 1] +
         " 100%)"
       );
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
-.wrap_animation {
-  position: absolute;
-  pointer-events: none;
-  width: 100%;
-  height: 100%;
-  z-index: 1000;
-}
-.btn-container {
-  position: absolute;
-}
-.open-modale {
-  cursor: pointer;
-}
+  .wrap_animation {
+    position: absolute;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+  }
+  .btn-container {
+    position: absolute;
+  }
+  .open-modale {
+    cursor: pointer;
+  }
 
-.slide-enter-active,
-.slide-leave-active {
-  transition: 0.5s ease-in-out;
-  left: 0;
-}
+  .slide-enter-active,
+  .slide-leave-active {
+    transition: 0.5s ease-in-out;
+    left: 0;
+  }
 
-.slide-enter,
-.slide-leave-to {
-  left: -512px;
-}
-@import url("./assets/css/style.css");
+  .slide-enter,
+  .slide-leave-to {
+    left: -512px;
+  }
+  @import url("./assets/css/style.css");
 </style>
