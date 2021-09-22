@@ -76,7 +76,7 @@
           </draggable>
         </div>
 
-        <div class="trash">
+        <div class="trash" @click="cleanAll()">
           <draggable
             class="draggable-list trashList"
             :list="trash"
@@ -150,7 +150,7 @@ export default {
         "#7251B5",
         "#6247AA",
       ],
-      gradient_BG: { id: 0, label: "Rainbow ☆" },
+      gradient_BG: { id: 0, label: "Default" },
       isModaleOpen: false,
     };
   },
@@ -223,6 +223,9 @@ export default {
     openModale() {
       this.isModaleOpen = true;
     },
+    cleanAll() {
+      this.sheet = [];
+    },
   },
   computed: {
     bgButton() {
@@ -238,6 +241,10 @@ export default {
 };
 </script>
 <style scoped>
+.trash {
+  cursor: pointer;
+}
+
 .btn-container {
   position: absolute;
 }
