@@ -105,6 +105,7 @@ main{
   }
 
 button{
+  cursor: pointer;
   font-size: 18px;
   font-family: Pecita, sans-serif;
   margin: 8px;
@@ -136,7 +137,7 @@ h1{
 .button-modale{
   height: 40px;
   width: 40px;
-  margin: 40px;
+  margin: 40px 10px 40px 40px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -153,4 +154,17 @@ h1{
 
 .button-modale:hover img{
   transform: rotate(45deg);
+}
+
+.d-flex{
+  display: flex;
+}
+
+.justify-align-center{
+  justify-content: center;
+  align-items: center;
+}
+
+.secondary{
+  color: #7d6cbbb6;
 }

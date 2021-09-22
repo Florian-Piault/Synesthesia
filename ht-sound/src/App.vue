@@ -4,16 +4,21 @@
     <div class="mt-5 container">
       <div class="header">
         <!-- open modale  -->
-        <div v-if="!isModaleOpen" class="btn-container">
+        <div
+          v-if="!isModaleOpen"
+          class="btn-container d-flex justify-align-center"
+        >
           <button class="open-modale button-modale" @click="openModale()">
             <img src="@/assets/menu.svg" alt="close" class="open-modale" />
           </button>
+
+          <p>⇽ Select your mood</p>
         </div>
 
         <!-- modale -->
         <transition appear mode="in-out" name="slide">
           <Modale v-if="isModaleOpen" @closeModale="closeModale()">
-            <h2>Chose your palette of colors</h2>
+            <h2>Chose your palette mood :</h2>
             <Color
               v-for="(theme, index) in themes"
               :theme="theme"
@@ -26,7 +31,9 @@
 
       <!-- PARTITION -->
       <div class="music column">
-        <h1>Compose your colored combination</h1>
+        <h1>Compose your colored partition</h1>
+
+        <p class="secondary">Drag & Drop Notes to the following partition ↴</p>
         <div>
           <draggable
             class="draggable-list"
@@ -47,15 +54,13 @@
             </div>
           </draggable>
         </div>
-        <p class="theme_label">
-          {{ gradient_BG.label }}
-        </p>
+        <p class="theme_label">Mood: {{ gradient_BG.label }}</p>
       </div>
 
       <!-- BUTTONS -->
       <div class="play flex-center">
         <button @click="playSound()">Discover your song</button>
-        <button @click="stopSound()">Re compose</button>
+        <!-- <button @click="stopSound()">Re compose</button> -->
       </div>
 
       <!-- NOTES DISPONILBES -->
@@ -88,6 +93,7 @@
           >
           </draggable>
         </div>
+        ← The trash is HERE
       </div>
     </div>
   </main>
