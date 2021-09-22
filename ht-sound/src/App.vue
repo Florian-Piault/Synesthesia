@@ -101,25 +101,29 @@ export default {
       synth: null,
       sequence: null,
       loopNumber: 1,
-      tempo: 2,
+      tempo: 0.5,
       sheet: [
-        { name: "C", color: "#ff6d93" },
-        { name: "D", color: "#ef5b7a" },
-        { name: "E", color: "#dd4a61" },
-        { name: "F", color: "#cb3949" },
-        { name: "G", color: "#b72832" },
-        { name: "A", color: "#a3161b" },
-        { name: "B", color: "#8e0000" },
+        {name:"C4",color:"#ee74e1",},
+        {name:"C4",color:"#ee74e1",},
+        {name:"C4",color:"#ee74e1",},
+        {name:"D4",color:"#b197ff",},
+        {name:"E4",color:"#2bb6ff",},
+        {name:"D4",color:"#b197ff",},
+        {name:"C4",color:"#ee74e1",},
+        {name:"E4",color:"#2bb6ff",},
+        {name:"D4",color:"#b197ff",},
+        {name:"D4",color:"#b197ff",},
+        {name:"C4",color:"#ee74e1",}
       ],
       trash: [],
       availableNotes: [
-        { name: "C", color: "#ff6d93" },
-        { name: "D", color: "#ef5b7a" },
-        { name: "E", color: "#dd4a61" },
-        { name: "F", color: "#cb3949" },
-        { name: "G", color: "#b72832" },
-        { name: "A", color: "#a3161b" },
-        { name: "B", color: "#8e0000" },
+        { name: "C4", color: "#ff6d93" },
+        { name: "D4", color: "#ef5b7a" },
+        { name: "E4", color: "#dd4a61" },
+        { name: "F4", color: "#cb3949" },
+        { name: "G4", color: "#b72832" },
+        { name: "A4", color: "#a3161b" },
+        { name: "B4", color: "#8e0000" },
       ],
       effects: ["distortion", "bitCrusher", "chorus", "chebyshev", "none"],
       activeEffect: "none",
@@ -177,12 +181,11 @@ export default {
       } else this.synth = this.synth.toDestination();
 
       this.sequence = new Tone.Sequence((time, note) => {
-        console.log(note.name)
-        this.synth.triggerAttackRelease(note.name + "4", "8n", time);
+         this.synth.triggerAttackRelease(note.name, "8t", time);        
       }, this.sheet);
 
       this.sequence.loop = this.loopNumber;
-      // seq.playbackRate = this.tempo;
+      this.sequence.playbackRate = 1;
       this.sequence.start(0);
       Tone.Transport.start();
     },

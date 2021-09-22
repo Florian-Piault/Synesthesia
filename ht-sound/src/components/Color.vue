@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="color-container">
-      <option @click="getColors()" :style="bgColor">{{theme.label}}</option>
+      <option class="color-picker" @click="getColors()" :style="bgColor">{{theme.label}}</option>
     </div>
   </div>
 </template>
@@ -32,5 +32,18 @@ export default {
 <style scoped>
   .color-container {
     margin: 8px 0;
+  }
+
+  .color-picker {
+    cursor: pointer;
+    border-radius: 4px;
+    height:48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .color-picker:hover {
+    filter: contrast(1.4);
   }
 </style>
