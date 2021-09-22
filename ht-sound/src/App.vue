@@ -2,9 +2,14 @@
   <main>
     <div class="mt-5 container">
       <div class="header">
-        <button @click="openModale()"> open </button>
+        <button @click="openModale()">open</button>
         <Modale v-if="isModaleOpen" @closeModale="closeModale()">
-          <Color v-for="theme in themes" :theme="theme" @changeColors='changeColors($event)' :key="theme.color"></Color>
+          <Color
+            v-for="theme in themes"
+            :theme="theme"
+            @changeColors="changeColors($event)"
+            :key="theme.color"
+          ></Color>
         </Modale>
       </div>
 
@@ -16,7 +21,14 @@
             :list="sheet"
             :group="{ name: 'myGroup', put: true }"
           >
-            <div class="list-item" :style=" element.color !== '' ? 'background-color:' + element.color : ''" v-for="element in sheet" :key="element.name">
+            <div
+              class="list-item"
+              :style="
+                element.color !== '' ? 'background-color:' + element.color : ''
+              "
+              v-for="element in sheet"
+              :key="element.name"
+            >
               {{ element.name }}
             </div>
           </draggable>
@@ -32,29 +44,34 @@
       <!-- NOTES DISPONILBES -->
       <div class="notes flex-center">
         <div>
-          <h4 class="mb-3">Notes</h4>
           <draggable
             class="draggable-list"
             :list="availableNotes"
             :group="{ name: 'myGroup', pull: 'clone', put: false }"
           >
-            <div class="list-item" :style=" element.color !== '' ? 'background-color:' + element.color : ''" v-for="element in availableNotes" :key="element.name">
+            <div
+              class="list-item"
+              :style="
+                element.color !== '' ? 'background-color:' + element.color : ''
+              "
+              v-for="element in availableNotes"
+              :key="element.name"
+            >
               {{ element.name }}
             </div>
           </draggable>
         </div>
 
-          <div class="trash">
-            <draggable
-              class="draggable-list trashList"
-              :list="list3"
-              :group="{ name: 'myGroup', pull: 'clone', put: true }"
-            >
-            </draggable>
-          </div>
+        <div class="trash">
+          <draggable
+            class="draggable-list trashList"
+            :list="list3"
+            :group="{ name: 'myGroup', pull: 'clone', put: true }"
+          >
+          </draggable>
         </div>
       </div>
-    </div> 
+    </div>
   </main>
 </template>
 <script>
