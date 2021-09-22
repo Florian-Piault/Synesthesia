@@ -121,13 +121,13 @@ export default {
       ],
       trash: [],
       availableNotes: [
-        { name: "C4", color: "#ff6d93" },
-        { name: "D4", color: "#ef5b7a" },
-        { name: "E4", color: "#dd4a61" },
-        { name: "F4", color: "#cb3949" },
-        { name: "G4", color: "#b72832" },
-        { name: "A4", color: "#a3161b" },
-        { name: "B4", color: "#8e0000" },
+        { name: "C4", color: "#C19EE0" },
+        { name: "D4", color: "#B185DB" },
+        { name: "E4", color: "#A06CD5" },
+        { name: "F4", color: "#9163CB" },
+        { name: "G4", color: "#815AC0" },
+        { name: "A4", color: "#7251B5" },
+        { name: "B4", color: "#6247AA" },
       ],
       effects: ["distortion", "bitCrusher", "chorus", "chebyshev", "none"],
       activeEffect: "none",
@@ -239,22 +239,22 @@ export default {
 };
 </script>
 <style scoped>
-.btn-container {
-  position: absolute;
-}
-.open-modale {
-  cursor: pointer;
-}
+  .btn-container {
+    position: absolute;
+  }
+  .open-modale {
+    cursor: pointer;
+  }
 
-.slide-enter-active,
-.slide-leave-active {
-  transition: 0.5s ease-in-out;
-  left: 0;
-}
+  .slide-enter-active,
+  .slide-leave-active {
+    transition: 0.5s ease-in-out;
+    left: 0;
+  }
 
-.slide-enter,
-.slide-leave-to {
-  left: -512px;
-}
-@import url("./assets/css/style.css");
+  .slide-enter,
+  .slide-leave-to {
+    left: -512px;
+  }
+  @import url("./assets/css/style.css");
 </style>
