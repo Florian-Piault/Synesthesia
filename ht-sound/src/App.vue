@@ -110,7 +110,7 @@
       <!-- BUTTONS -->
       <div class="play flex-center">
         <button @click="playSound()">Discover your composition</button>
-        <!-- <button @click="stopSound()">Re compose</button> -->
+        <button v-if="loop" @click="stopSound()">Stop ⬚</button>
       </div>
 
       <!-- NOTES DISPONILBES -->
