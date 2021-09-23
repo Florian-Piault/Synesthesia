@@ -37,6 +37,13 @@
               @changeColors="changeColors($event, index)"
               :key="theme.color"
             ></Color>
+            <div class="d-flex check">
+              <input v-model="displayNotes" type="checkbox" id="switch" /><label
+                for="switch"
+                >Toggle</label
+              >
+              <p>Afficher les notes</p>
+            </div>
           </Modale>
         </transition>
       </div>
@@ -63,7 +70,7 @@
               :key="element.name"
               :id="'index_' + index"
             >
-              <p>
+              <p v-if="displayNotes">
                 {{ element.label }}<sub>{{ element.octave }}</sub>
               </p>
             </div>
@@ -95,7 +102,9 @@
               v-for="element in availableNotes"
               :key="element.name"
             >
-              <!-- {{ element.label }} -->
+              <template v-if="displayNotes">
+                {{ element.label }}
+              </template>
             </div>
           </draggable>
         </div>
@@ -129,7 +138,7 @@ export default {
     VueContext,
   },
   watch: {
-    sheet: function() {
+    sheet: function () {
       this.availableNotes = [
         { name: "C", octave: "4", label: "DO", color: this.gradient[0] },
         { name: "D", octave: "4", label: "RE", color: this.gradient[1] },
@@ -145,6 +154,7 @@ export default {
   },
   data() {
     return {
+      displayNotes: false,
       synth: null,
       sequence: null,
       loopNumber: 1,
@@ -309,44 +319,44 @@ export default {
 };
 </script>
 <style scoped>
-.wrap_animation {
-  overflow: hidden;
-  position: absolute;
-  pointer-events: none;
-  width: 100%;
-  height: 100%;
-  z-index: 1000;
-}
-.btn-container {
-  position: absolute;
-}
-.open-modale {
-  cursor: pointer;
-}
-.trash {
-  cursor: pointer;
-}
+  .wrap_animation {
+    overflow: hidden;
+    position: absolute;
+    pointer-events: none;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+  }
+  .btn-container {
+    position: absolute;
+  }
+  .open-modale {
+    cursor: pointer;
+  }
+  .trash {
+    cursor: pointer;
+  }
 
-.slide-enter-active,
-.slide-leave-active {
-  transition: 0.5s ease-in-out;
-  left: 0;
-}
+  .slide-enter-active,
+  .slide-leave-active {
+    transition: 0.5s ease-in-out;
+    left: 0;
+  }
 
-.slide-enter,
-.slide-leave-to {
-  left: -512px;
-}
+  .slide-enter,
+  .slide-leave-to {
+    left: -512px;
+  }
 
-.ctx-choice {
-  color: black;
-  padding-left: 16px;
-}
-.ctx-choice:hover {
-  color: #888;
-  background-color: #ddd;
-  cursor: pointer;
-}
-@import "~vue-context/dist/css/vue-context.css";
-@import url("./assets/css/style.css");
+  .ctx-choice {
+    color: black;
+    padding-left: 16px;
+  }
+  .ctx-choice:hover {
+    color: #888;
+    background-color: #ddd;
+    cursor: pointer;
+  }
+  @import "~vue-context/dist/css/vue-context.css";
+  @import url("./assets/css/style.css");
 </style>
