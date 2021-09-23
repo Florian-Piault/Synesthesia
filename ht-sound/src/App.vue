@@ -29,7 +29,11 @@
 
         <!-- modale -->
         <transition appear mode="in-out" name="slide">
-          <Modale v-if="isModaleOpen" @closeModale="closeModale()">
+          <Modale
+            v-if="isModaleOpen"
+            @closeModale="closeModale()"
+            :tempo="tempo"
+          >
             <h2>Chose your palette mood :</h2>
             <Color
               v-for="(theme, index) in themes"
@@ -43,6 +47,18 @@
                 >Toggle</label
               >
               <p>Afficher les notes</p>
+            </div>
+            <div class="tempo">
+              <label for="tempo">Tempo: </label>
+              <input
+                type="range"
+                v-model="tempo"
+                name="tempo"
+                step="0.1"
+                min="0.1"
+                max="3"
+              />
+              <p>{{ tempo }}</p>
             </div>
           </Modale>
         </transition>
@@ -256,7 +272,7 @@ export default {
       }, this.sheet);
 
       this.sequence.loop = this.loopNumber;
-      this.sequence.playbackRate = 1;
+      this.sequence.playbackRate = this.tempo;
       this.sequence.start(0);
       Tone.Transport.start();
     },
@@ -356,6 +372,12 @@ export default {
     color: #888;
     background-color: #ddd;
     cursor: pointer;
+  }
+
+  .tempo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
   @import "~vue-context/dist/css/vue-context.css";
   @import url("./assets/css/style.css");
