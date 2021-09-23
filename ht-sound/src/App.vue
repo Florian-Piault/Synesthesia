@@ -44,6 +44,7 @@
             <div class="tempo">
               <label for="tempo">Tempo: </label>
               <input
+                class="slider"
                 type="range"
                 v-model="tempo"
                 name="tempo"
@@ -142,7 +143,7 @@ export default {
     draggable,
     Color,
     Modale,
-    VueContext,
+    VueContext
   },
   watch: {
     sheet: function() {
@@ -154,10 +155,10 @@ export default {
         { name: "G", octave: "4", label: "SOL", color: this.gradient[4] },
         { name: "A", octave: "4", label: "LA", color: this.gradient[5] },
         { name: "B", octave: "4", label: "SI", color: this.gradient[6] },
-        { name: "C#", octave: "4", label: "-", color: "#fff" },
+        { name: "C#", octave: "4", label: "-", color: "#fff" }
       ];
       this.changeSheetColor();
-    },
+    }
   },
   data() {
     return {
@@ -178,7 +179,7 @@ export default {
         { name: "E", octave: "4", label: "MI", color: "#a380cd" },
         { name: "D", octave: "4", label: "RE", color: "#b28fd7" },
         { name: "D", octave: "4", label: "RE", color: "#b28fd7" },
-        { name: "C", octave: "4", label: "DO", color: "#c19ee0" },
+        { name: "C", octave: "4", label: "DO", color: "#c19ee0" }
       ],
       trash: [],
       availableNotes: [
@@ -189,7 +190,7 @@ export default {
         { name: "G", octave: "4", label: "SOL", color: "#815AC0" },
         { name: "A", octave: "4", label: "LA", color: "#7251B5" },
         { name: "B", octave: "4", label: "SI", color: "#6247AA" },
-        { name: "C#", octave: "4", label: "-", color: "#fff" },
+        { name: "C#", octave: "4", label: "-", color: "#fff" }
       ],
       octaves: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
       themes: [
@@ -197,7 +198,7 @@ export default {
         { colorFrom: "#e89be0", colorTo: "#82f7cc", label: "Rainbow ☆" },
         { colorFrom: "#FBAB7E", colorTo: "#F7CE68", label: "Sunny ☀️" },
         { colorFrom: "#74EBD5", colorTo: "#9FACE6", label: "Rainy ☔" },
-        { colorFrom: "#8EC5FC", colorTo: "#E0C3FC", label: "Cloudy ☁️" },
+        { colorFrom: "#8EC5FC", colorTo: "#E0C3FC", label: "Cloudy ☁️" }
       ],
       gradient: [
         "#C19EE0",
@@ -206,10 +207,10 @@ export default {
         "#9163CB",
         "#815AC0",
         "#7251B5",
-        "#6247AA",
+        "#6247AA"
       ],
       gradient_BG: { id: 0, label: "Default" },
-      isModaleOpen: false,
+      isModaleOpen: false
     };
   },
   methods: {
@@ -272,8 +273,8 @@ export default {
       this.sequence.dispose();
     },
     changeSheetColor() {
-      this.availableNotes.forEach((exempleNote) => {
-        this.sheet.forEach((sheetNote) => {
+      this.availableNotes.forEach(exempleNote => {
+        this.sheet.forEach(sheetNote => {
           if (exempleNote.name === sheetNote.name)
             sheetNote.color = exempleNote.color;
         });
@@ -309,8 +310,8 @@ export default {
     },
     changeOctave(oct, index) {
       this.sheet[index].octave = oct;
-    },
-  },
+    }
+  }
   // computed: {
   //   bgButton() {
   //     return (
@@ -369,6 +370,35 @@ export default {
   flex-direction: row;
   align-items: center;
 }
+.slider {
+  -webkit-appearance: none;
+  width: 30%;
+  height: 10px;
+  border-radius: 50px;
+  background: #fff;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: 0.2s;
+  transition: opacity 0.2s;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50px;
+  background: #2e3a59;
+  cursor: pointer;
+}
+.slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50px;
+  background: #2e3a59;
+  cursor: pointer;
+}
+
 @import "~vue-context/dist/css/vue-context.css";
 @import url("./assets/css/style.css");
 </style>
