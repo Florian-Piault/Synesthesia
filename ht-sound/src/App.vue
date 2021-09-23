@@ -109,7 +109,9 @@
 
       <!-- BUTTONS -->
       <div class="play flex-center">
-        <button @click="playSound()">Discover your composition</button>
+        <button :disabled="playing" @click="playSound()">
+          Discover your composition
+        </button>
         <button v-if="loop" @click="stopSound()">Stop ⬚</button>
       </div>
 
@@ -236,10 +238,12 @@ export default {
       ],
       gradient_BG: { id: 0, label: "Default" },
       isModaleOpen: false,
+      playing: false,
     };
   },
   methods: {
     playSound() {
+      this.playing = true;
       Tone.Transport.stop();
       Tone.Transport.clear();
       if (this.sequence) this.sequence.dispose();
@@ -282,6 +286,7 @@ export default {
         if (this.sheet.length >= i) {
           fireworks(this.gradient, i);
           i++;
+          this.playing = i == this.sheet.length ? false : true;
         } else {
           i = 0;
         }
