@@ -31,9 +31,9 @@
 
       <!-- PARTITION -->
       <div class="music column">
-        <h1>Compose your colored partition</h1>
+        <h1>Compose your colored combinaison</h1>
 
-        <p class="secondary">Drag & Drop Notes to the following partition ↴</p>
+        <p class="secondary">Drag & Drop shapes to the following container ↴</p>
         <div>
           <draggable
             class="draggable-list"
@@ -50,7 +50,7 @@
               :key="element.name"
               :id="'index_' + index"
             >
-              {{ element.label }}
+              <!-- {{ element.label }} -->
             </div>
           </draggable>
         </div>
@@ -59,7 +59,7 @@
 
       <!-- BUTTONS -->
       <div class="play flex-center">
-        <button @click="playSound()">Discover your song</button>
+        <button @click="playSound()">Discover your composition</button>
         <!-- <button @click="stopSound()">Re compose</button> -->
       </div>
 
@@ -80,7 +80,7 @@
               v-for="element in availableNotes"
               :key="element.name"
             >
-              {{ element.label }}
+              <!-- {{ element.label }} -->
             </div>
           </draggable>
         </div>
@@ -126,27 +126,27 @@ export default {
       loopNumber: 1,
       tempo: 0.5,
       sheet: [
-        { name: "C4", label: "DO", color: "#ee74e1", id: "index_0" },
-        { name: "C4", label: "DO", color: "#ee74e1", id: "index_1" },
-        { name: "C4", label: "DO", color: "#ee74e1", id: "index_2" },
-        { name: "D4", label: "RE", color: "#b197ff", id: "index_3" },
-        { name: "E4", label: "MI", color: "#2bb6ff", id: "index_4" },
-        { name: "D4", label: "RE", color: "#b197ff", id: "index_5" },
-        { name: "C4", label: "DO", color: "#ee74e1", id: "index_6" },
-        { name: "E4", label: "MI", color: "#2bb6ff", id: "index_7" },
-        { name: "D4", label: "RE", color: "#b197ff", id: "index_8" },
-        { name: "D4", label: "RE", color: "#b197ff", id: "index_9" },
-        { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
-        { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
-        { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
-        { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
-        { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
-        { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
-        { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
-        { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
-        { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
-        { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
-        { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
+        { name: "C4", label: "DO", color: "#C19EE0", id: "index_0" },
+        { name: "C4", label: "DO", color: "#C19EE0", id: "index_1" },
+        { name: "C4", label: "DO", color: "#C19EE0", id: "index_2" },
+        { name: "D4", label: "RE", color: "#B185DB", id: "index_3" },
+        { name: "E4", label: "MI", color: "#A06CD5", id: "index_4" },
+        { name: "D4", label: "RE", color: "#B185DB", id: "index_5" },
+        { name: "C4", label: "DO", color: "#C19EE0", id: "index_6" },
+        { name: "E4", label: "MI", color: "#A06CD5", id: "index_7" },
+        { name: "D4", label: "RE", color: "#B185DB", id: "index_8" },
+        { name: "D4", label: "RE", color: "#B185DB", id: "index_9" },
+        { name: "C4", label: "DO", color: "#C19EE0", id: "index_10" },
+        { name: "C4", label: "DO", color: "#C19EE0", id: "index_10" },
+        { name: "C4", label: "DO", color: "#C19EE0", id: "index_10" },
+        { name: "C4", label: "DO", color: "#C19EE0", id: "index_10" },
+        { name: "C4", label: "DO", color: "#C19EE0", id: "index_10" },
+        { name: "C4", label: "DO", color: "#C19EE0", id: "index_10" },
+        { name: "C4", label: "DO", color: "#C19EE0", id: "index_10" },
+        { name: "C4", label: "DO", color: "#C19EE0", id: "index_10" },
+        { name: "C4", label: "DO", color: "#C19EE0", id: "index_10" },
+        { name: "C4", label: "DO", color: "#C19EE0", id: "index_10" },
+        { name: "C4", label: "DO", color: "#C19EE0", id: "index_10" },
       ],
       trash: [],
       availableNotes: [

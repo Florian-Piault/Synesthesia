@@ -40,8 +40,8 @@ main{
     cursor: pointer;
     font-size: 18px;
     border-radius: 50%;
-    background-color: #141414;
-    background-image: linear-gradient(150deg, rgba(185, 185, 185, 0.1) 0%, rgba(255, 255, 255, 0.4) 100%);
+   /*  background-color: #141414;
+    background-image: linear-gradient(150deg, rgba(185, 185, 185, 0.1) 0%, rgba(255, 255, 255, 0.4) 100%); */
     box-shadow: 3px 3px 3px  rgba(0,0,0,0.1);
   -moz-box-shadow: 3px 3px 3px  rgba(0,0,0,0.1);
   -webkit-box-shadow: 3px 3px  3px rgba(0,0,0,0.1);
