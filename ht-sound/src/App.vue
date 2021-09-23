@@ -48,7 +48,15 @@
                 class="switch"
                 >Toggle</label
               >
-              <p>← Afficher les notes ♫</p>
+              <p>Afficher les notes ♫</p>
+            </div>
+            <div class="d-flex check">
+              <input v-model="loop" type="checkbox" id="switch2" /><label
+                for="switch2"
+                class="switch"
+                >Toggle</label
+              >
+              <p>Loop ♾</p>
             </div>
             <div class="tempo">
               <input
@@ -158,6 +166,9 @@ export default {
     VueContext,
   },
   watch: {
+    loop() {
+      this.loop ? (this.loopNumber = 10000) : (this.loopNumber = 1);
+    },
     sheet: function () {
       this.availableNotes = [
         { name: "C", octave: "4", label: "DO", color: this.gradient[0] },
@@ -174,11 +185,12 @@ export default {
   },
   data() {
     return {
+      loop: false,
       displayNotes: false,
       synth: null,
       sequence: null,
       loopNumber: 1,
-      tempo: 0.5,
+      tempo: 1,
       sheet: [
         { name: "C", octave: "4", label: "DO", color: "#c19ee0" },
         { name: "C", octave: "4", label: "DO", color: "#c19ee0" },
