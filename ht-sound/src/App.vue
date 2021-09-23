@@ -50,7 +50,9 @@
               :key="element.name"
               :id="'index_' + index"
             >
-              {{ element.label }}
+              <p>
+                {{ element.label }}<sub>{{ element.octave }}</sub>
+              </p>
             </div>
           </draggable>
         </div>
@@ -125,29 +127,7 @@ export default {
       sequence: null,
       loopNumber: 1,
       tempo: 0.5,
-      sheet: [
-        // { name: "C4", label: "DO", color: "#ee74e1", id: "index_0" },
-        // { name: "C4", label: "DO", color: "#ee74e1", id: "index_1" },
-        // { name: "C4", label: "DO", color: "#ee74e1", id: "index_2" },
-        // { name: "D4", label: "RE", color: "#b197ff", id: "index_3" },
-        // { name: "E4", label: "MI", color: "#2bb6ff", id: "index_4" },
-        // { name: "D4", label: "RE", color: "#b197ff", id: "index_5" },
-        // { name: "C4", label: "DO", color: "#ee74e1", id: "index_6" },
-        // { name: "E4", label: "MI", color: "#2bb6ff", id: "index_7" },
-        // { name: "D4", label: "RE", color: "#b197ff", id: "index_8" },
-        // { name: "D4", label: "RE", color: "#b197ff", id: "index_9" },
-        // { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
-        // { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
-        // { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
-        // { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
-        // { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
-        // { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
-        // { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
-        // { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
-        // { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
-        // { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
-        // { name: "C4", label: "DO", color: "#ee74e1", id: "index_10" },
-      ],
+      sheet: [],
       trash: [],
       availableNotes: [
         { name: "C", octave: "4", label: "DO", color: "#C19EE0" },
@@ -242,12 +222,13 @@ export default {
       this.gradient_BG.id = index;
       this.gradient_BG.label = colors.label;
       this.gradient = colors.colors;
+      this.gradient.push("#fff");
       this.availableNotes.forEach((note, i) => (note.color = this.gradient[i]));
 
       // change les notes déjà entrées
       this.availableNotes.map((exempleNote) => {
         this.sheet.filter((sheetNote) =>
-          sheetNote.name === exempleNote.name
+          (sheetNote.name && sheetNote.label !== "-") === exempleNote.name
             ? (sheetNote.color = exempleNote.color)
             : null
         );
