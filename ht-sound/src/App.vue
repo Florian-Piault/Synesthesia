@@ -2,6 +2,7 @@
   <main :style="{ 'background-image': 'url(BG_' + gradient_BG.id + '.jpg)' }">
     <VueContext ref="ctxMenu">
       <ul class="ctx-menu" slot-scope="child">
+        <li style="color: #2e3a59">OCTAVE :</li>
         <li
           v-for="o in octaves"
           @click="changeOctave(o, child.data)"
@@ -24,7 +25,7 @@
             <img src="@/assets/menu.svg" alt="close" class="open-modale" />
           </button>
 
-          <p>⇽ Select your mood</p>
+          <p>⇽ Select your mood & settings</p>
         </div>
 
         <!-- modale -->
@@ -34,7 +35,7 @@
             @closeModale="closeModale()"
             :tempo="tempo"
           >
-            <h2>Chose your palette mood :</h2>
+            <h2>Chose your palette mood ✵</h2>
             <Color
               v-for="(theme, index) in themes"
               :theme="theme"
@@ -44,12 +45,12 @@
             <div class="d-flex check">
               <input v-model="displayNotes" type="checkbox" id="switch" /><label
                 for="switch"
+                class="switch"
                 >Toggle</label
               >
-              <p>Afficher les notes</p>
+              <p>← Afficher les notes ♫</p>
             </div>
             <div class="tempo">
-              <label for="tempo">Tempo: </label>
               <input
                 type="range"
                 v-model="tempo"
@@ -58,7 +59,8 @@
                 min="0.1"
                 max="3"
               />
-              <p>{{ tempo }}</p>
+              <label for="tempo">Tempo : </label>
+              <p>{{ tempo }} ⌛</p>
             </div>
           </Modale>
         </transition>
@@ -66,7 +68,7 @@
 
       <!-- PARTITION -->
       <div class="music column">
-        <h1>Compose your colored combinaison</h1>
+        <h1>Compose your colored combinaison ☹</h1>
 
         <p class="secondary">Drag & Drop shapes to the following container ↴</p>
         <div>
@@ -86,8 +88,9 @@
               :key="element.name"
               :id="'index_' + index"
             >
-              <p v-if="displayNotes">
-                {{ element.label }}<sub>{{ element.octave }}</sub>
+              <p>
+                <template v-if="displayNotes"> {{ element.label }} </template
+                ><sub>{{ element.octave }}</sub>
               </p>
             </div>
           </draggable>
