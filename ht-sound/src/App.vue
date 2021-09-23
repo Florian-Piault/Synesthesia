@@ -298,6 +298,7 @@ export default {
       Tone.Transport.start();
     },
     stopSound() {
+      this.playing = false;
       Tone.Transport.stop();
       Tone.Transport.clear();
       this.sequence.dispose();
