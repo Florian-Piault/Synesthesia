@@ -1,18 +1,16 @@
 @font-face {
-  font-family: Pecita ;
-  src: url('../font/Pecita.otf');
+  font-family: Pecita;
+  src: url("../font/Pecita.otf");
 }
 
-body{
-    margin: 0;
-    font-family: Pecita, sans-serif;
+body {
+  margin: 0;
+  font-family: Pecita, sans-serif;
 
-
-font-style: normal;
-color: white;
+  font-style: normal;
+  color: white;
 }
-main{
-  
+main {
   background-color: gray;
   height: 100vh;
   background-position: center;
@@ -102,27 +100,27 @@ main{
   box-shadow: inset 4em 0 0 0 white;
 }
 
-  .column{
-      flex-direction: column;
-  }
+.column {
+  flex-direction: column;
+}
 
-button{
+button {
   cursor: pointer;
   font-size: 18px;
   font-family: Pecita, sans-serif;
   margin: 8px;
-  border: 1px solid #FFFFFF;
+  border: 1px solid #ffffff;
   box-sizing: border-box;
   border-radius: 30px;
   padding: 8px 24px;
   background-color: #2e3a5905;
   color: #fff;
 }
-button:hover{
+button:hover {
   background-color: #fff;
-  color: #2E3A59;
+  color: #2e3a59;
 }
-.theme_label{
+.theme_label {
   color: #fff;
   font-size: 18px;
   background-color: #2e3a5911;
@@ -130,13 +128,13 @@ button:hover{
   border-radius: 20px;
 }
 
-h1{
+h1 {
   /* background-color: #2e3a5911;
   padding: 8px 24px;
   border-radius: 30px; */
 }
 
-.button-modale{
+.button-modale {
   height: 40px;
   width: 40px;
   margin: 40px 10px 40px 40px;
@@ -146,27 +144,27 @@ h1{
   border: none;
   padding: 0;
 }
-.button-modale:hover{
+.button-modale:hover {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.button-modale img{
+.button-modale img {
   transition: transform 1s;
 }
 
-.button-modale:hover img{
+.button-modale:hover img {
   transform: rotate(45deg);
 }
 
-.d-flex{
+.d-flex {
   display: flex;
 }
 
-.justify-align-center{
+.justify-align-center {
   justify-content: center;
   align-items: center;
 }
 
-.secondary{
+.secondary {
   color: #7d6cbbb6;
 }

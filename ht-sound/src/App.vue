@@ -1,5 +1,17 @@
 <template>
   <main :style="{ 'background-image': 'url(BG_' + gradient_BG.id + '.jpg)' }">
+    <VueContext ref="ctxMenu">
+      <ul class="ctx-menu" slot-scope="child">
+        <li
+          v-for="o in octaves"
+          @click="changeOctave(o, child.data)"
+          :key="o"
+          class="ctx-choice"
+        >
+          {{ o }}
+        </li>
+      </ul>
+    </VueContext>
     <div class="wrap_animation"><canvas class="fireworks"></canvas></div>
     <div class="mt-5 container">
       <div class="header">
@@ -41,6 +53,7 @@
             :group="{ name: 'myGroup', put: true }"
           >
             <div
+              @contextmenu.prevent="$refs.ctxMenu.open($event, index)"
               @dblclick="removeFromSheet(index)"
               class="list-item"
               :style="
@@ -50,7 +63,9 @@
               :key="element.name"
               :id="'index_' + index"
             >
-              <!-- {{ element.label }} -->
+              <p>
+                {{ element.label }}<sub>{{ element.octave }}</sub>
+              </p>
             </div>
           </draggable>
         </div>
@@ -104,19 +119,27 @@ import Color from "./components/Color.vue";
 import Modale from "./components/Modale.vue";
 import * as Tone from "tone";
 import { fireworks } from "./assets/js/fireworks.js";
+import VueContext from "vue-context";
 
 export default {
   components: {
     draggable,
     Color,
     Modale,
+    VueContext,
   },
   watch: {
-    sheet: function (newValue) {
-      newValue.forEach((element, index) => {
-        element.id = "index_" + index;
-      });
-      console.log();
+    sheet: function() {
+      this.availableNotes = [
+        { name: "C", octave: "4", label: "DO", color: "#C19EE0" },
+        { name: "D", octave: "4", label: "RE", color: "#B185DB" },
+        { name: "E", octave: "4", label: "MI", color: "#A06CD5" },
+        { name: "F", octave: "4", label: "FA", color: "#9163CB" },
+        { name: "G", octave: "4", label: "SOL", color: "#815AC0" },
+        { name: "A", octave: "4", label: "LA", color: "#7251B5" },
+        { name: "B", octave: "4", label: "SI", color: "#6247AA" },
+        { name: "C", octave: "4", label: "-", color: "#fff" },
+      ];
     },
   },
   data() {
@@ -150,15 +173,16 @@ export default {
       ],
       trash: [],
       availableNotes: [
-        { name: "C4", label: "DO", color: "#C19EE0" },
-        { name: "D4", label: "RE", color: "#B185DB" },
-        { name: "E4", label: "MI", color: "#A06CD5" },
-        { name: "F4", label: "FA", color: "#9163CB" },
-        { name: "G4", label: "SOL", color: "#815AC0" },
-        { name: "A4", label: "LA", color: "#7251B5" },
-        { name: "B4", label: "SI", color: "#6247AA" },
-        { name: "C4", label: "-", color: "#fff" },
+        { name: "C", octave: "4", label: "DO", color: "#C19EE0" },
+        { name: "D", octave: "4", label: "RE", color: "#B185DB" },
+        { name: "E", octave: "4", label: "MI", color: "#A06CD5" },
+        { name: "F", octave: "4", label: "FA", color: "#9163CB" },
+        { name: "G", octave: "4", label: "SOL", color: "#815AC0" },
+        { name: "A", octave: "4", label: "LA", color: "#7251B5" },
+        { name: "B", octave: "4", label: "SI", color: "#6247AA" },
+        { name: "C", octave: "4", label: "-", color: "#fff" },
       ],
+      octaves: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
       themes: [
         { colorFrom: "#C19EE0", colorTo: "#6247AA", label: "Default" },
         { colorFrom: "#e89be0", colorTo: "#82f7cc", label: "Rainbow ☆" },
@@ -212,8 +236,14 @@ export default {
       let i = 0;
       this.sequence = new Tone.Sequence((time, note) => {
         if (note.label === "-")
-          this.synth.triggerAttackRelease(note.name, "8t", time, 0);
-        else this.synth.triggerAttackRelease(note.name, "8t", time);
+          this.synth.triggerAttackRelease(
+            note.name + note.octave,
+            "8t",
+            time,
+            0
+          );
+        else
+          this.synth.triggerAttackRelease(note.name + note.octave, "8t", time);
         if (this.sheet.length >= i) {
           fireworks(this.gradient, i);
           i++;
@@ -236,12 +266,13 @@ export default {
       this.gradient_BG.id = index;
       this.gradient_BG.label = colors.label;
       this.gradient = colors.colors;
+      this.gradient.push("#fff");
       this.availableNotes.forEach((note, i) => (note.color = this.gradient[i]));
 
       // change les notes déjà entrées
       this.availableNotes.map((exempleNote) => {
         this.sheet.filter((sheetNote) =>
-          sheetNote.name === exempleNote.name
+          (sheetNote.name && sheetNote.label !== "-") === exempleNote.name
             ? (sheetNote.color = exempleNote.color)
             : null
         );
@@ -265,48 +296,63 @@ export default {
     removeFromSheet(i) {
       this.sheet.splice(i, 1);
     },
-  },
-  computed: {
-    bgButton() {
-      return (
-        "color: linear-gradient(0deg, " +
-        this.gradient[0] +
-        " 0%, " +
-        this.gradient[this.gradient.length - 1] +
-        " 100%)"
-      );
+    changeOctave(oct, index) {
+      console.log(this.availableNotes);
+      this.sheet[index].octave = oct;
     },
   },
+  // computed: {
+  //   bgButton() {
+  //     return (
+  //       "color: linear-gradient(0deg, " +
+  //       this.gradient[0] +
+  //       " 0%, " +
+  //       this.gradient[this.gradient.length - 1] +
+  //       " 100%)"
+  //     );
+  //   },
+  // },
 };
 </script>
 <style scoped>
-  .wrap_animation {
-    overflow: hidden;
-    position: absolute;
-    pointer-events: none;
-    width: 100%;
-    height: 100%;
-    z-index: 1000;
-  }
-  .btn-container {
-    position: absolute;
-  }
-  .open-modale {
-    cursor: pointer;
-  }
-  .trash {
-    cursor: pointer;
-  }
+.wrap_animation {
+  overflow: hidden;
+  position: absolute;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+}
+.btn-container {
+  position: absolute;
+}
+.open-modale {
+  cursor: pointer;
+}
+.trash {
+  cursor: pointer;
+}
 
-  .slide-enter-active,
-  .slide-leave-active {
-    transition: 0.5s ease-in-out;
-    left: 0;
-  }
+.slide-enter-active,
+.slide-leave-active {
+  transition: 0.5s ease-in-out;
+  left: 0;
+}
 
-  .slide-enter,
-  .slide-leave-to {
-    left: -512px;
-  }
-  @import url("./assets/css/style.css");
+.slide-enter,
+.slide-leave-to {
+  left: -512px;
+}
+
+.ctx-choice {
+  color: black;
+  padding-left: 16px;
+}
+.ctx-choice:hover {
+  color: #888;
+  background-color: #ddd;
+  cursor: pointer;
+}
+@import "~vue-context/dist/css/vue-context.css";
+@import url("./assets/css/style.css");
 </style>

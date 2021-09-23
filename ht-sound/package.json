@@ -17,6 +17,7 @@
     "tone": "^14.7.77",
     "tune": "^0.2.1",
     "vue": "^2.6.11",
+    "vue-context": "^6.0.0",
     "vuedraggable": "^2.24.2"
   },
   "devDependencies": {
