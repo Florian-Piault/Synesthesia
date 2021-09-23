@@ -131,15 +131,16 @@ export default {
   watch: {
     sheet: function() {
       this.availableNotes = [
-        { name: "C", octave: "4", label: "DO", color: "#C19EE0" },
-        { name: "D", octave: "4", label: "RE", color: "#B185DB" },
-        { name: "E", octave: "4", label: "MI", color: "#A06CD5" },
-        { name: "F", octave: "4", label: "FA", color: "#9163CB" },
-        { name: "G", octave: "4", label: "SOL", color: "#815AC0" },
-        { name: "A", octave: "4", label: "LA", color: "#7251B5" },
-        { name: "B", octave: "4", label: "SI", color: "#6247AA" },
-        { name: "C", octave: "4", label: "-", color: "#fff" },
+        { name: "C", octave: "4", label: "DO", color: this.gradient[0] },
+        { name: "D", octave: "4", label: "RE", color: this.gradient[1] },
+        { name: "E", octave: "4", label: "MI", color: this.gradient[2] },
+        { name: "F", octave: "4", label: "FA", color: this.gradient[3] },
+        { name: "G", octave: "4", label: "SOL", color: this.gradient[4] },
+        { name: "A", octave: "4", label: "LA", color: this.gradient[5] },
+        { name: "B", octave: "4", label: "SI", color: this.gradient[6] },
+        { name: "C#", octave: "4", label: "-", color: "#fff" },
       ];
+      this.changeSheetColor();
     },
   },
   data() {
@@ -149,27 +150,19 @@ export default {
       loopNumber: 1,
       tempo: 0.5,
       sheet: [
-        { name: "C4", label: "DO", color: "#C19EE0", id: "index_0" },
-        { name: "C4", label: "DO", color: "#C19EE0", id: "index_1" },
-        { name: "C4", label: "DO", color: "#C19EE0", id: "index_2" },
-        { name: "D4", label: "RE", color: "#B185DB", id: "index_3" },
-        { name: "E4", label: "MI", color: "#A06CD5", id: "index_4" },
-        { name: "D4", label: "RE", color: "#B185DB", id: "index_5" },
-        { name: "C4", label: "DO", color: "#C19EE0", id: "index_6" },
-        { name: "E4", label: "MI", color: "#A06CD5", id: "index_7" },
-        { name: "D4", label: "RE", color: "#B185DB", id: "index_8" },
-        { name: "D4", label: "RE", color: "#B185DB", id: "index_9" },
-        { name: "C4", label: "DO", color: "#C19EE0", id: "index_10" },
-        { name: "C4", label: "DO", color: "#C19EE0", id: "index_10" },
-        { name: "C4", label: "DO", color: "#C19EE0", id: "index_10" },
-        { name: "C4", label: "DO", color: "#C19EE0", id: "index_10" },
-        { name: "C4", label: "DO", color: "#C19EE0", id: "index_10" },
-        { name: "C4", label: "DO", color: "#C19EE0", id: "index_10" },
-        { name: "C4", label: "DO", color: "#C19EE0", id: "index_10" },
-        { name: "C4", label: "DO", color: "#C19EE0", id: "index_10" },
-        { name: "C4", label: "DO", color: "#C19EE0", id: "index_10" },
-        { name: "C4", label: "DO", color: "#C19EE0", id: "index_10" },
-        { name: "C4", label: "DO", color: "#C19EE0", id: "index_10" },
+        { name: "C", octave: "4", label: "DO", color: "#c19ee0" },
+        { name: "C", octave: "4", label: "DO", color: "#c19ee0" },
+        { name: "C", octave: "4", label: "DO", color: "#c19ee0" },
+        { name: "D", octave: "4", label: "RE", color: "#b28fd7" },
+        { name: "E", octave: "4", label: "MI", color: "#a380cd" },
+        { name: "C#", octave: "4", label: "-", color: "#fff" },
+        { name: "D", octave: "4", label: "RE", color: "#b28fd7" },
+        { name: "C#", octave: "4", label: "-", color: "#fff" },
+        { name: "C", octave: "4", label: "DO", color: "#c19ee0" },
+        { name: "E", octave: "4", label: "MI", color: "#a380cd" },
+        { name: "D", octave: "4", label: "RE", color: "#b28fd7" },
+        { name: "D", octave: "4", label: "RE", color: "#b28fd7" },
+        { name: "C", octave: "4", label: "DO", color: "#c19ee0" },
       ],
       trash: [],
       availableNotes: [
@@ -180,7 +173,7 @@ export default {
         { name: "G", octave: "4", label: "SOL", color: "#815AC0" },
         { name: "A", octave: "4", label: "LA", color: "#7251B5" },
         { name: "B", octave: "4", label: "SI", color: "#6247AA" },
-        { name: "C", octave: "4", label: "-", color: "#fff" },
+        { name: "C#", octave: "4", label: "-", color: "#fff" },
       ],
       octaves: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
       themes: [
@@ -262,6 +255,14 @@ export default {
       Tone.Transport.clear();
       this.sequence.dispose();
     },
+    changeSheetColor() {
+      this.availableNotes.forEach((exempleNote) => {
+        this.sheet.forEach((sheetNote) => {
+          if (exempleNote.name === sheetNote.name)
+            sheetNote.color = exempleNote.color;
+        });
+      });
+    },
     changeColors(colors, index) {
       this.gradient_BG.id = index;
       this.gradient_BG.label = colors.label;
@@ -270,13 +271,7 @@ export default {
       this.availableNotes.forEach((note, i) => (note.color = this.gradient[i]));
 
       // change les notes déjà entrées
-      this.availableNotes.map((exempleNote) => {
-        this.sheet.filter((sheetNote) =>
-          (sheetNote.name && sheetNote.label !== "-") === exempleNote.name
-            ? (sheetNote.color = exempleNote.color)
-            : null
-        );
-      });
+      this.changeSheetColor();
 
       // ferme la modale
       this.closeModale();
@@ -297,7 +292,6 @@ export default {
       this.sheet.splice(i, 1);
     },
     changeOctave(oct, index) {
-      console.log(this.availableNotes);
       this.sheet[index].octave = oct;
     },
   },
