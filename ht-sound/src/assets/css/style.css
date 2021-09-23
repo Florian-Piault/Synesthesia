@@ -177,7 +177,7 @@ input[type=checkbox]{
 	text-indent: -9999px;
 	width: 50px;
 	height: 25px;
-	background: grey;
+	background: rgb(179, 179, 179);
 	display: block;
 	border-radius: 100px;
 	position: relative;

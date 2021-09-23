@@ -400,15 +400,17 @@ export default {
     appearance: none;
     width: 16px;
     height: 16px;
+    opacity: 1;
     border-radius: 50px;
-    background: #2e3a59;
+    background: rgb(179, 179, 179);
     cursor: pointer;
   }
   .slider::-moz-range-thumb {
     width: 16px;
     height: 16px;
+    opacity: 1;
     border-radius: 50px;
-    background: #2e3a59;
+    background: white;
     cursor: pointer;
   }
 
