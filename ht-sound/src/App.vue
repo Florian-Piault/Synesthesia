@@ -52,6 +52,7 @@
             </div>
             <div class="tempo">
               <input
+                class="slider"
                 type="range"
                 v-model="tempo"
                 name="tempo"
@@ -382,6 +383,35 @@ export default {
     flex-direction: row;
     align-items: center;
   }
+  .slider {
+    -webkit-appearance: none;
+    width: 30%;
+    height: 10px;
+    border-radius: 50px;
+    background: #fff;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
+  }
+
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50px;
+    background: #2e3a59;
+    cursor: pointer;
+  }
+  .slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50px;
+    background: #2e3a59;
+    cursor: pointer;
+  }
+
   @import "~vue-context/dist/css/vue-context.css";
   @import url("./assets/css/style.css");
 </style>
