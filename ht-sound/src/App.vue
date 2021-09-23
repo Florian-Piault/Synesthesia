@@ -1,5 +1,17 @@
 <template>
   <main :style="{ 'background-image': 'url(BG_' + gradient_BG.id + '.jpg)' }">
+    <VueContext ref="ctxMenu">
+      <ul class="ctx-menu" slot-scope="child">
+        <li
+          v-for="o in octaves"
+          @click="changeOctave(o, child.data)"
+          :key="o"
+          class="ctx-choice"
+        >
+          {{ o }}
+        </li>
+      </ul>
+    </VueContext>
     <div class="wrap_animation"><canvas class="fireworks"></canvas></div>
     <div class="mt-5 container">
       <div class="header">
@@ -41,6 +53,7 @@
             :group="{ name: 'myGroup', put: true }"
           >
             <div
+              @contextmenu.prevent="$refs.ctxMenu.open($event, index)"
               @dblclick="removeFromSheet(index)"
               class="list-item"
               :style="
@@ -106,19 +119,27 @@ import Color from "./components/Color.vue";
 import Modale from "./components/Modale.vue";
 import * as Tone from "tone";
 import { fireworks } from "./assets/js/fireworks.js";
+import VueContext from "vue-context";
 
 export default {
   components: {
     draggable,
     Color,
     Modale,
+    VueContext,
   },
   watch: {
-    sheet: function(newValue) {
-      newValue.forEach((element, index) => {
-        element.id = "index_" + index;
-      });
-      console.log();
+    sheet: function() {
+      this.availableNotes = [
+        { name: "C", octave: "4", label: "DO", color: "#C19EE0" },
+        { name: "D", octave: "4", label: "RE", color: "#B185DB" },
+        { name: "E", octave: "4", label: "MI", color: "#A06CD5" },
+        { name: "F", octave: "4", label: "FA", color: "#9163CB" },
+        { name: "G", octave: "4", label: "SOL", color: "#815AC0" },
+        { name: "A", octave: "4", label: "LA", color: "#7251B5" },
+        { name: "B", octave: "4", label: "SI", color: "#6247AA" },
+        { name: "C", octave: "4", label: "-", color: "#fff" },
+      ];
     },
   },
   data() {
@@ -139,6 +160,7 @@ export default {
         { name: "B", octave: "4", label: "SI", color: "#6247AA" },
         { name: "C", octave: "4", label: "-", color: "#fff" },
       ],
+      octaves: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
       themes: [
         { colorFrom: "#C19EE0", colorTo: "#6247AA", label: "Default" },
         { colorFrom: "#e89be0", colorTo: "#82f7cc", label: "Rainbow ☆" },
@@ -252,18 +274,22 @@ export default {
     removeFromSheet(i) {
       this.sheet.splice(i, 1);
     },
-  },
-  computed: {
-    bgButton() {
-      return (
-        "color: linear-gradient(0deg, " +
-        this.gradient[0] +
-        " 0%, " +
-        this.gradient[this.gradient.length - 1] +
-        " 100%)"
-      );
+    changeOctave(oct, index) {
+      console.log(this.availableNotes);
+      this.sheet[index].octave = oct;
     },
   },
+  // computed: {
+  //   bgButton() {
+  //     return (
+  //       "color: linear-gradient(0deg, " +
+  //       this.gradient[0] +
+  //       " 0%, " +
+  //       this.gradient[this.gradient.length - 1] +
+  //       " 100%)"
+  //     );
+  //   },
+  // },
 };
 </script>
 <style scoped>
@@ -295,5 +321,16 @@ export default {
 .slide-leave-to {
   left: -512px;
 }
+
+.ctx-choice {
+  color: black;
+  padding-left: 16px;
+}
+.ctx-choice:hover {
+  color: #888;
+  background-color: #ddd;
+  cursor: pointer;
+}
+@import "~vue-context/dist/css/vue-context.css";
 @import url("./assets/css/style.css");
 </style>
